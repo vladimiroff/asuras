@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import pygame
 
-
 class Game:
     fields = []
     pieces = {}
@@ -22,8 +21,6 @@ class Game:
             screen.fill((239, 237, 236))
             self.sprites.draw(screen)
             pygame.display.flip()
-
-        pass
 
 if __name__ == '__main__':
     pygame.init()
