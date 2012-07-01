@@ -2,8 +2,6 @@
 import pygame
 
 class Game:
-    fields = []
-    pieces = {}
     sprites = pygame.sprite.Group()
 
     def main(self, screen):
