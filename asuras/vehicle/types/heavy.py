@@ -1,4 +1,4 @@
-from ..vehicle import Vehicle
+from . import Vehicle
 
 class Heavy(Vehicle):
     weight = 3400
