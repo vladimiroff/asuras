@@ -5,5 +5,17 @@ class Vehicle(sprite.Sprite):
         'weight': 0,
         'inventory': 0,
         'dimenstion': 0,
-        'slots': {},
+        'slots': {
+            'motions': {
+                'front': 0,
+                'back': 0,
+            },
+            'engines': {
+                'front': 0,
+                'back': 0,
+            },
+            'shields': ['front', 'back', 'left', 'right'],
+            'addons': 0,
+            'generators': 0,
+        },
     }
