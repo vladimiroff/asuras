@@ -1,6 +1,6 @@
 from . import Vehicle
 
-class Huge(Vehicle):
+class HugeVehicle(Vehicle):
     DEFAULTS = {
         'weight': 4800,
         'inventory': 80,

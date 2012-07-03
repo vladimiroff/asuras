@@ -1,6 +1,6 @@
 from . import Vehicle
 
-class Tiny(Vehicle):
+class TinyVehicle(Vehicle):
     DEFAULTS = {
         'weight': 600,
         'inventory': 4,
