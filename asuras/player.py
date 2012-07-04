@@ -11,7 +11,7 @@ D = 3
 
 
 class Player(pygame.sprite.Sprite):
-    top_speed = 5
+    top_speed = 50
     speed = 0
     weight = 0.4
     acceleration = 1
@@ -26,8 +26,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.center = self.position
 
 
-    def update(self, pressed):
-        print(pressed)
+    def update(self, pressed, dt):
         if pressed[A]:
             self.rotation += 1
         if pressed[D]:
@@ -51,7 +50,7 @@ class Player(pygame.sprite.Sprite):
             self.rotation += 360
 
         direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
-        direction.length = self.speed
+        direction.length = self.speed * dt
 
         self.position += direction
         self.rect.x = self.position[0]

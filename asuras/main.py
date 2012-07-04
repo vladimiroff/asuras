@@ -18,7 +18,7 @@ class Game:
             dt = clock.tick(45)
 
             self.handle_keys()
-            self.sprites.update(self.pressed_arrows)
+            self.sprites.update(self.pressed_arrows, dt / 100)
             screen.fill((239, 237, 236))
             self.sprites.draw(screen)
             pygame.display.flip()
