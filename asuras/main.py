@@ -15,7 +15,7 @@ class Game:
         # wait David to figure out how to initialize the map
 
         while self.running:
-            dt = clock.tick()
+            dt = clock.tick(45)
 
             self.handle_keys()
             self.sprites.update(self.pressed_arrows)

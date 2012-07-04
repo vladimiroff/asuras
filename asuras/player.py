@@ -1,4 +1,3 @@
-import pdb
 import math
 import pygame
 
@@ -23,34 +22,38 @@ class Player(pygame.sprite.Sprite):
         super(Player, self).__init__(*groups)
         self.image = pygame.image.load('resources/tank.png')
         self.base_image = self.image
-        self.rect = pygame.rect.Rect(self.position, self.image.get_size())
+        self.rect = self.image.get_rect()
+        self.rect.center = self.position
+
 
     def update(self, pressed):
         print(pressed)
         if pressed[A]:
-            self.rotation -= 1
-            self.image = pygame.transform.rotate(self.base_image, self.rotation)
-        if pressed[D]:
             self.rotation += 1
-            self.image = pygame.transform.rotate(self.base_image, self.rotation)
+        if pressed[D]:
+            self.rotation -= 1
+
         if pressed[W] and abs(self.speed) < self.top_speed:
             self.speed += self.acceleration
         if pressed[S] and abs(self.speed) < self.top_speed:
             self.speed -= self.acceleration
+
         if not pressed[W] and not pressed[S] and self.speed != 0:
             self.speed -= math.copysign(self.acceleration, self.speed)
+
+        if pressed[A] or pressed[D]:
+            self.image = pygame.transform.rotate(self.base_image, self.rotation)
+            self.rect = self.image.get_rect()
 
         if self.rotation > 360:
             self.rotation -= 360
         elif self.rotation < 0:
             self.rotation += 360
 
-        direction = Vec2d(math.cos(self.rotation), math.sin(self.rotation))
+        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
         direction.length = self.speed
 
-        print(self.speed, self.rotation, direction, self.acceleration)
-        print()
         self.position += direction
         self.rect.x = self.position[0]
         self.rect.y = self.position[1]
-
+        self.rect.center = self.position
