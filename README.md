@@ -12,4 +12,5 @@ Nothing to see here yet. Move along.
 ## AUTHORS
 * David Tankov (@Lordmordevil)
 * Kiril Vladimiroff (@Vladimiroff)
+* Miroslav Gavrilov (@Thral25)
 
