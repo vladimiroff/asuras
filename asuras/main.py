@@ -6,7 +6,12 @@ from player import Player
 class Game:
     sprites = pygame.sprite.Group()
     running = True
-    pressed_arrows = [False, False, False, False]
+    arrows = [
+        [pygame.K_w, False],
+        [pygame.K_a, False],
+        [pygame.K_s, False],
+        [pygame.K_d, False],
+    ]
 
     def main(self, screen):
         ''' The main loop '''
@@ -18,7 +23,7 @@ class Game:
             dt = clock.tick(45)
 
             self.handle_keys()
-            self.sprites.update(self.pressed_arrows, dt / 100)
+            self.sprites.update([arrow[1] for arrow in self.arrows], dt / 100)
             screen.fill((239, 237, 236))
             self.sprites.draw(screen)
             pygame.display.flip()
@@ -27,34 +32,17 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running = False
-            elif event.type == pygame.KEYDOWN:
-                self.key_down(event.key)
-            elif event.type == pygame.KEYUP:
-                self.key_up(event.key)
+            elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                self.set_pressed_arrows(event.key)
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.mouse_up(event.button, event.pos)
             elif event.type == pygame.MOUSEMOTION:
                 self.mouse_motion(event.buttons, event.pos, event.rel)
 
-    def key_down(self, key):
-        if key == pygame.K_w:
-            self.pressed_arrows[0] = True
-        if key == pygame.K_a:
-            self.pressed_arrows[1] = True
-        if key == pygame.K_s:
-            self.pressed_arrows[2] = True
-        if key == pygame.K_d:
-            self.pressed_arrows[3] = True
-
-    def key_up(self, key):
-        if key == pygame.K_w:
-            self.pressed_arrows[0] = False
-        if key == pygame.K_a:
-            self.pressed_arrows[1] = False
-        if key == pygame.K_s:
-            self.pressed_arrows[2] = False
-        if key == pygame.K_d:
-            self.pressed_arrows[3] = False
+    def set_pressed_arrows(self, key):
+        for i, (arrow, is_pressed) in enumerate(self.arrows):
+            if key == arrow:
+                self.arrows[i][1] = not is_pressed
 
     def mouse_up(self, button, pos):
         pass

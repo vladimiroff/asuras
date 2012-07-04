@@ -27,6 +27,19 @@ class Player(pygame.sprite.Sprite):
 
 
     def update(self, pressed, dt):
+        self.movement_controls(pressed)
+        self.update_position(dt)
+
+    def update_position(self, dt):
+        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
+        direction.length = self.speed * dt
+
+        self.position += direction
+        self.rect.x = self.position[0]
+        self.rect.y = self.position[1]
+        self.rect.center = self.position
+
+    def movement_controls(self, pressed):
         if pressed[A]:
             self.rotation += 1
         if pressed[D]:
@@ -48,11 +61,3 @@ class Player(pygame.sprite.Sprite):
             self.rotation -= 360
         elif self.rotation < 0:
             self.rotation += 360
-
-        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
-        direction.length = self.speed * dt
-
-        self.position += direction
-        self.rect.x = self.position[0]
-        self.rect.y = self.position[1]
-        self.rect.center = self.position
