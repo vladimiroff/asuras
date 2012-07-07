@@ -41,9 +41,9 @@ class Player(pygame.sprite.Sprite):
 
     def movement_controls(self, pressed):
         if pressed[A]:
-            self.rotation += 1
+            self.rotation += 2
         if pressed[D]:
-            self.rotation -= 1
+            self.rotation -= 2
 
         if pressed[W] and abs(self.speed) < self.top_speed:
             self.speed += self.acceleration
