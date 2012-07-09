@@ -12,7 +12,7 @@ from pygame.locals import *
 from pygame import Rect
 from xml.etree import ElementTree
 
-class Tile(object):
+class Tile:
     def __init__(self, gid, surface, tileset):
         self.gid = gid
         self.surface = surface
@@ -48,7 +48,7 @@ class Tile(object):
     def __repr__(self):
         return '<Tile %d>' % self.gid
 
-class Tileset(object):
+class Tileset:
     def __init__(self, name, tile_width, tile_height, firstgid):
         self.name = name
         self.tile_width = tile_width
@@ -87,8 +87,8 @@ class Tileset(object):
         if not image:
             sys.exit("Error creating new Tileset: file %s not found" % file)
         id = self.firstgid
-        for line in xrange(image.get_height()/self.tile_height):
-            for column in xrange(image.get_width()/self.tile_width):
+        for line in range(image.get_height()/self.tile_height):
+            for column in range(image.get_width()/self.tile_width):
                 pos = Rect(column*self.tile_width,
                     line*self.tile_height,
                     self.tile_width,
@@ -105,7 +105,7 @@ class Tilesets(dict):
             i += tileset.firstgid
             self[i] = tile
 
-class Cell(object):
+class Cell:
     '''Layers are made of Cells (or empty space).
 
     Cells have some basic properties:
@@ -163,13 +163,13 @@ class Cell(object):
         if other.y + other.height < self.py: return False
         return True
 
-class LayerIterator(object):
+class LayerIterator:
     '''Iterates over all the cells in a layer in column,row order.
     '''
     def __init__(self, layer):
         self.layer = layer
         self.i, self.j = 0, 0
-    def next(self):
+    def __next__(self):
         if self.i == self.layer.width - 1:
             self.j += 1
             self.i = 0
@@ -180,7 +180,7 @@ class LayerIterator(object):
         return value
 
 
-class Layer(object):
+class Layer:
     '''A 2d grid of Cells.
 
     Layers have some basic properties:
@@ -384,7 +384,7 @@ class Layers(list):
             return self[item]
         return self.by_name[item]
 
-class TileMap(object):
+class TileMap:
     '''A TileMap is a collection of Layers which contain gridded maps or sprites
     which are drawn constrained by a viewport.
 
