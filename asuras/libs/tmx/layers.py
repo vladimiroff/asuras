@@ -93,7 +93,8 @@ class Layer:
             tile = map.tilesets[gid]
             x = i % layer.width
             y = i // layer.width
-            layer.cells[x, y] = Cell(x, y, x*map.tile_width, y*map.tile_height, tile)
+            layer.cells[x, y] = Cell(x, y, x*map.tile_width,
+                                           y*map.tile_height, tile)
 
         return layer
 
@@ -148,7 +149,8 @@ class Layer:
         name set.
         '''
         r = []
-        for cell in self.get_in_region(rect.left, rect.top, rect.right, rect.bottom):
+        for cell in self.get_in_region(rect.left, rect.top,
+                                       rect.right, rect.bottom):
             if not cell.intersects(rect):
                 continue
             if propname in cell:
@@ -224,6 +226,7 @@ class SpriteLayer(pygame.sprite.AbstractGroup):
 
 class Layers(list):
     def __init__(self):
+        super().__init__()
         self.by_name = {}
 
     def add_named(self, layer, name):

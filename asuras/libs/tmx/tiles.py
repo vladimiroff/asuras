@@ -12,15 +12,15 @@ class Tile:
         self.properties = {}
 
     @classmethod
-    def fromSurface(cls, surface):
+    def from_surface(cls, surface):
         '''Create a new Tile object straight from a pygame Surface.
 
         Its tile_width and tile_height will be set using the Surface dimensions.
         Its gid will be 0.
         '''
-        class ts:
+        class TileSurface:
             tile_width, tile_height = surface.get_size()
-        return cls(0, surface, ts)
+        return cls(0, surface, TileSurface)
 
     def loadxml(self, tag):
         props = tag.find('properties')

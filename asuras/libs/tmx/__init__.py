@@ -54,6 +54,10 @@ class TileMap:
         self.view_w, self.view_h = size     # viewport size
         self.view_x, self.view_y = origin   # viewport offset
         self.viewport = pygame.Rect(origin, size)
+        self.childs_ox = 0
+        self.childs_oy = 0
+        self.restricted_fx = 0
+        self.restricted_fy = 0
 
     def update(self, dt, *args):
         for layer in self.layers:
