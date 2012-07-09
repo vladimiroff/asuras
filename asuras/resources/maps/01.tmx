@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="64" height="64" tilewidth="50" tileheight="50">
+ <tileset firstgid="1" name="Untitled" tilewidth="50" tileheight="50" spacing="1">
+  <image source="tileset beta1.jpg" width="766" height="1582"/>
+ </tileset>
+ <layer name="Layer 0" width="64" height="64">
+  <data encoding="base64" compression="zlib">
+   eJzt1udOwzAUhuGUVSirbBDQVEAFYpSNxLj/6+KLlEiWcZraTVMM749HSVT71CfHdtxKkqQ1pq5H25hsyWF+vybrsiGbVrvU6rMtO7Ire7IvB0assnZ1c/2vj75cGs9nMnDUPXX0zdqey4XVp3AsJ3LawLUXmP+9vOX37/Ihn/Jl5Z1afR7kUZ7kWV7k1YiVuZqiptbHcET9ffzW/MeNF5L/tdzIbQPXu8D87T2v7F0MA2K71kndXOvOh7lH9Yz852ReFvLrkrTz+0Xj2fx9WVYCxzEr5hwNnUMxc+35dv3NevvWeLVms35fvuo8N8Z4Bp30uzmtWHXqJD/naSfC/Lv5uEcpm4NHlhjrn8Wv+t6mjnfwV+pf5G/XslDk7zOOGPOvqr/PWTDk3NhErLL4Vevfdwz//fsPAAAAAAAAAAAAAAAAAAAAAJjcNyrJOT8=
+  </data>
+ </layer>
+ <layer name="Layer 1" width="4" height="4" x="1" y="6" visible="0" opacity="0.47">
+  <data encoding="base64" compression="zlib">
+   eJwNwwsRgCAUALAXQDAAnwCgAQT752K72xURyextsdrsDqePr5/L7e8BObACQQ==
+  </data>
+ </layer>
+</map>
