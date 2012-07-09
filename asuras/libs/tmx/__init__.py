@@ -4,8 +4,6 @@
 
 # TODO: support properties on more things
 
-import sys
-
 import pygame
 from xml.etree import ElementTree
 
