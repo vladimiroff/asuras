@@ -29,15 +29,17 @@ class Vehicle(sprite.Sprite):
         },
     }
 
+    _slots = {}
+
     top_speed = 0
     speed = 0
     weight = 0.0
     acceleration = 0
     rotation = 0
 
-    def __init__(self, position, *groups):
+    def __init__(self, location, *groups):
         super(__class__, self).__init__(*groups)
-        self.position = Vec2d(position[0], position[1])
+        self.position = Vec2d(location[0], location[1])
 
     def update(self, pressed, time_delta):
         self.movement_controls(pressed)
@@ -74,3 +76,20 @@ class Vehicle(sprite.Sprite):
         if pressed[A] or pressed[D]:
             self.image = transform.rotate(self.base_image, self.rotation)
             self.rect = self.image.get_rect()
+
+    def recalculate(self):
+        pass
+
+
+    def attach(self, component, slot, overwrite=True):
+        if component.group not in self.DEFAULTS['slots']:
+            return False
+        if not slot.is_empty:
+            if not overwrite:
+                return False
+        self._slots[component.group][slot] = component
+        self.recalculate()
+
+    def detach(self, component, slot):
+        self._slots[component.group][slot] = None
+        self.recalculate()
