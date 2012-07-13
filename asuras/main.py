@@ -20,10 +20,10 @@ class Game:
         # wait David to figure out how to initialize the map
 
         while self.running:
-            dt = clock.tick(45)
+            time_delta = clock.tick(45)
 
             self.handle_keys()
-            self.sprites.update([arrow[1] for arrow in self.arrows], dt / 100)
+            self.sprites.update([arrow[1] for arrow in self.arrows], time_delta / 100)
             screen.fill((239, 237, 236))
             self.sprites.draw(screen)
             pygame.display.flip()
@@ -52,6 +52,5 @@ class Game:
 
 if __name__ == '__main__':
     pygame.init()
-    screen = pygame.display.set_mode((1200, 800))
     pygame.display.set_caption("Asuras")
-    Game().main(screen)
+    Game().main(pygame.display.set_mode((1200, 800)))

@@ -1,4 +1,6 @@
-from . import Vehicle
+from pygame import image
+
+from vehicle import Vehicle
 
 class NormalVehicle(Vehicle):
     DEFAULTS = {
@@ -19,3 +21,15 @@ class NormalVehicle(Vehicle):
             'generators': 1,
         },
     }
+    top_speed = 50
+    speed = 0
+    weight = 0.4
+    acceleration = 1
+    rotation = 0
+
+    def __init__(self, position, *groups):
+        super(__class__, self).__init__(position, *groups)
+        self.image = image.load('resources/tank.png')
+        self.base_image = self.image
+        self.rect = self.image.get_rect()
+        self.rect.center = self.position
