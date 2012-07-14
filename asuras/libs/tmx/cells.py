@@ -28,12 +28,15 @@ class Cell:
         self.center = (px + tile.tile_width//2, py + tile.tile_height//2)
         self._added_properties = {}
         self._deleted_properties = set()
+
     def __repr__(self):
         return '<Cell %s,%s %d>' % (self.px, self.py, self.tile.gid)
+
     def __contains__(self, key):
         if key in self._deleted_properties:
             return False
         return key in self._added_properties or key in self.tile.properties
+
     def __getitem__(self, key):
         if key in self._deleted_properties:
             raise KeyError(key)
@@ -42,10 +45,13 @@ class Cell:
         if key in self.tile.properties:
             return self.tile.properties[key]
         raise KeyError(key)
+
     def __setitem__(self, key, value):
         self._added_properties[key] = value
+
     def __delitem__(self, key):
         self._deleted_properties.add(key)
+
     def intersects(self, other):
         '''Determine whether this Cell intersects with the other rect (which has
         .x, .y, .width and .height attributes.)
