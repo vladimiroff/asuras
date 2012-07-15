@@ -41,7 +41,7 @@ class Vehicle(sprite.Sprite):
         super(__class__, self).__init__(*groups)
         self.position = Vec2d(location[0], location[1])
 
-    def update(self, pressed, time_delta):
+    def update(self, pressed, time_delta, tilemap):
         self.movement_controls(pressed)
         self.update_position(time_delta)
 

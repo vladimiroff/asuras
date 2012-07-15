@@ -24,7 +24,7 @@ class Game:
         while self.running:
             time_delta = clock.tick(45)
             self.handle_keys()
-            self.tilemap.update([arrow[1] for arrow in self.arrows], time_delta / 100)
+            self.tilemap.update([arrow[1] for arrow in self.arrows], time_delta / 100, self.tilemap)
             self.tilemap.set_focus(self.player.vehicle.rect.x, self.player.vehicle.rect.y)
             screen.fill((239, 237, 236))
             self.tilemap.draw(screen)
