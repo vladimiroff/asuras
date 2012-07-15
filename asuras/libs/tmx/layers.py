@@ -235,6 +235,6 @@ class Layers(list):
 
     def __getitem__(self, item):
         if isinstance(item, int):
-            return self[item]
+            return super().__getitem__(item)
         return self.by_name[item]
 
