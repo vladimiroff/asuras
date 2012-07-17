@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import ipdb
 import pygame
 
 from player import Player
@@ -35,6 +36,8 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
             elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
+                if event.key == pygame.K_BACKQUOTE:
+                    ipdb.set_trace()
                 self.set_pressed_arrows(event.key)
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.mouse_up(event.button, event.pos)
