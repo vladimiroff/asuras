@@ -1,5 +1,6 @@
 from pygame import image
 
+from libs.vec2d import Vec2d
 from vehicle import Vehicle
 
 class NormalVehicle(Vehicle):
@@ -33,3 +34,19 @@ class NormalVehicle(Vehicle):
         self.base_image = self.image
         self.rect = self.image.get_rect()
         self.rect.center = self.position
+        self.points = [Vec2d(-7, -32),
+                       Vec2d(-20, -23),
+                       Vec2d(-20, -13),
+                       Vec2d(-15, -8),
+                       Vec2d(-15, 8),
+                       Vec2d(-20, 13),
+                       Vec2d(-20, 23),
+                       Vec2d(-7, 32),
+                       Vec2d(7, 32),
+                       Vec2d(20, 23),
+                       Vec2d(20, 13),
+                       Vec2d(15, 8),
+                       Vec2d(15, -8),
+                       Vec2d(20, -13),
+                       Vec2d(20, -23),
+                       Vec2d(7, -32),]
