@@ -1,9 +1,11 @@
 # "Tiled" TMX loader/renderer and more
 # Copyright 2012 Richard Jones <richard@mechanicalcat.net>
+# Modified by: Kiril Vladimirov <kiril@vladimiroff.org>
 # This code is placed in the Public Domain.
 
 # TODO: support properties on more things
 
+import os
 import pygame
 from xml.etree import ElementTree
 
@@ -71,7 +73,6 @@ class TileMap:
         with open(filename) as f:
             map = ElementTree.fromstring(f.read())
 
-        # get most general map informations and create a surface
         tilemap = TileMap(viewport)
         tilemap.width = int(map.attrib['width'])
         tilemap.height  = int(map.attrib['height'])
@@ -79,9 +80,10 @@ class TileMap:
         tilemap.tile_height = int(map.attrib['tileheight'])
         tilemap.px_width = tilemap.width * tilemap.tile_width
         tilemap.px_height = tilemap.height * tilemap.tile_height
+        tilemap.path = os.path.abspath(os.path.dirname(filename))
 
         for tag in map.findall('tileset'):
-            tilemap.tilesets.add(Tileset.fromxml(tag))
+            tilemap.tilesets.add(Tileset.fromxml(tag, base_path=tilemap.path))
 
         for tag in map.findall('layer'):
             layer = Layer.fromxml(tag, tilemap)

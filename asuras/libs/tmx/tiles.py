@@ -1,3 +1,4 @@
+import os
 import sys
 from xml.etree import ElementTree
 
@@ -49,7 +50,7 @@ class Tileset:
         self.properties = {}
 
     @classmethod
-    def fromxml(cls, tag, firstgid=None):
+    def fromxml(cls, tag, firstgid=None, base_path=''):
         if 'source' in tag.attrib:
             firstgid = int(tag.attrib['firstgid'])
             with open(tag.attrib['source']) as f:
@@ -66,8 +67,7 @@ class Tileset:
 
         for c in tag.getchildren():
             if c.tag == "image":
-                # create a tileset
-                tileset.add_image(c.attrib['source'])
+                tileset.add_image(os.path.join(base_path, c.attrib['source']))
             elif c.tag == 'tile':
                 gid = tileset.firstgid + int(c.attrib['id'])
                 tileset.get_tile(gid).loadxml(c)
