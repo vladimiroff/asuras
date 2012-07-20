@@ -1,13 +1,13 @@
 import unittest
 
 from vehicle import Vehicle
-from vehicle.types import NormalVehicle
+from vehicle.types.normal import NormalVehicle
 
 class BaseVehicleTests(unittest.TestCase):
 
     def setUp(self):
-        self.v = Vehicle()
-        self.n = NormalVehicle()
+        self.v = Vehicle((10, 10))
+        self.n = NormalVehicle((10, 10))
 
     def test_defaults(self):
         self.assertIsInstance(self.v.DEFAULTS, dict)
