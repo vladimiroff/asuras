@@ -23,7 +23,12 @@ class Vehicle(sprite.Sprite):
                 'front': 0,
                 'back': 0,
             },
-            'shields': ['front', 'back', 'left', 'right'],
+            'shields': {
+                'front': 0,
+                'back': 0,
+                'left': 0,
+                'right': 0,
+            },
             'addons': 0,
             'generators': 0,
         },
@@ -80,16 +85,17 @@ class Vehicle(sprite.Sprite):
     def recalculate(self):
         pass
 
-
-    def attach(self, component, slot, overwrite=True):
+    def attach(self, component, slot):
         if component.group not in self.DEFAULTS['slots']:
             return False
-        if not slot.is_empty:
-            if not overwrite:
+        if not self._slots.setdefault(component.group, {}).setdefault(slot, None):
                 return False
         self._slots[component.group][slot] = component
         self.recalculate()
 
     def detach(self, component, slot):
-        self._slots[component.group][slot] = None
+        try:
+            del self._slots[component.group][slot]
+        except KeyError:
+            pass
         self.recalculate()
