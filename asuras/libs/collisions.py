@@ -12,6 +12,7 @@ class Detection:
         self.objects = objects
 
     def line_by_line_check(self):
+        self.collisions[:] = []
         previos_point = self.entity.points[-1]
         for collidable in self.objects:
             collidable_previous_point = self.entity.points[-1]

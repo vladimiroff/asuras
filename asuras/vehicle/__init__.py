@@ -2,6 +2,7 @@ import math
 from pygame import sprite, transform
 
 from libs.vec2d import Vec2d
+from libs.collisions import Detection
 
 # Keys in pressed_arrows
 W = 0
@@ -41,9 +42,29 @@ class Vehicle(sprite.Sprite):
         super(__class__, self).__init__(*groups)
         self.position = Vec2d(location[0], location[1])
 
+    def collision_check(self, tilemap):
+        tile_container = (self.rect.center[0]//tilemap.layers[0].tile_width,self.rect.center[1]//tilemap.layers[0].tile_height)
+        tile = tilemap.layers[0][tile_container]
+        obsticles = []
+        for line in range(3):
+            for col in range(3):
+                curent_tile = tilemap.layers[1][(tile_container[0] + line - 1, tile_container[1] + col - 1)]
+                if type(curent_tile) == "libs.tmx.cells.Cell":
+                    if curent_tile.tile.obsticles[collidable]:
+                        object_points = [curent_tile.tile.points]
+                        new_collidable_object.pos = Vec2d(curent_tile.topleft)
+                        new_collidable_object.points = []
+                        for point in object_points:
+                            new_collidable_object.points.appent(Vec2d(point))
+                        obsticles.append(new_collidable_object)
+        vehicle_colider = Detection(self, obsticles)
+        return not vehicle_colider.collisions == []
+
     def update(self, pressed, time_delta, tilemap):
         self.movement_controls(pressed)
-        self.update_position(time_delta)
+        if not self.collision_check(tilemap):
+            self.update_position(time_delta)
+        #self.update_position(time_delta)
 
     def update_position(self, time_delta):
         direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
