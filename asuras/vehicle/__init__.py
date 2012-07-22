@@ -10,6 +10,11 @@ A = 1
 S = 2
 D = 3
 
+class Obsticle:
+    def __init__(self):
+        self.pos = 0
+        self.points = []
+
 class Vehicle(sprite.Sprite):
     DEFAULTS = {
         'weight': 0,
@@ -49,22 +54,32 @@ class Vehicle(sprite.Sprite):
         for line in range(3):
             for col in range(3):
                 curent_tile = tilemap.layers[1][(tile_container[0] + line - 1, tile_container[1] + col - 1)]
-                if type(curent_tile) == "libs.tmx.cells.Cell":
-                    if curent_tile.tile.obsticles[collidable]:
-                        object_points = [curent_tile.tile.points]
+                if type(curent_tile) == type(tile):#Kire trqbva da opravim tazi krupla s tipa
+                    if curent_tile.tile.properties['collidable']:
+                        object_points = curent_tile.tile.properties['points'].split(';')
+                        new_collidable_object = Obsticle() # I tova trqbva da se opravi
                         new_collidable_object.pos = Vec2d(curent_tile.topleft)
                         new_collidable_object.points = []
                         for point in object_points:
-                            new_collidable_object.points.appent(Vec2d(point))
+                            point_coords = point.split(',')
+                            new_collidable_object.points.append(Vec2d(int(point_coords[0]), int(point_coords[1])))
                         obsticles.append(new_collidable_object)
-        vehicle_colider = Detection(self, obsticles)
+        player = Obsticle()
+        player.pos = self.rect.center
+        player.points = self.points
+        vehicle_colider = Detection(player, obsticles)
+        vehicle_colider.line_by_line_check()
         return not vehicle_colider.collisions == []
 
     def update(self, pressed, time_delta, tilemap):
-        self.movement_controls(pressed)
-        if not self.collision_check(tilemap):
+        if not self.collision_check(tilemap) or self.speed == 0:
+            print(self.speed)
+            self.movement_controls(pressed)
             self.update_position(time_delta)
-        #self.update_position(time_delta)
+        else:
+            print(self.speed)
+            self.speed = - (self.speed * 0.8)
+            self.update_position(time_delta)
 
     def update_position(self, time_delta):
         direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))

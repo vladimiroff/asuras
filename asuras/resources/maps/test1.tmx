@@ -5,7 +5,7 @@
   <tile id="59">
    <properties>
     <property name="collidable" value="1"/>
-    <property name="points" value="(0, 10), (101, 10), (101, 91), (0, 91)"/>
+    <property name="points" value="0,0;101,10;101,91;0, 91"/>
    </properties>
   </tile>
  </tileset>
@@ -16,7 +16,7 @@
  </layer>
  <layer name="Tile Layer 2" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt0mlLAlEYhuEpW4RssbJsIUtbaLGiffv/v6vHoG9CgtpQc11wf5tzzgvvFMXkzKTZVEtzaT4tpMVUn+A7jGYpNdJyWkmraS0103qJc1VVK22l7dROO2k37aX9Eueqqk46TEepm3rpOJ2k0/LG+rM2xjx/ni7SZbpK/XSdbtLtmHdX0fsI32ymjyGdpfv0kB7TU3pOL+k1vU1h3v/up30MdnH3G4Pw5aAY/u9/ZxcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMDAJ8oZCbM=
+   eJzt0zERAAAMAjGE1b+urh1w0OTuHUACAHw0Jfigbd8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAawGapALR
   </data>
  </layer>
 </map>
