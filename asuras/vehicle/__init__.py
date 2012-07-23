@@ -4,6 +4,7 @@ from pygame import sprite, transform
 from libs.vec2d import Vec2d
 from libs.collisions import Detection
 
+
 # Keys in pressed_arrows
 W = 0
 A = 1
@@ -72,14 +73,12 @@ class Vehicle(sprite.Sprite):
         return not vehicle_colider.collisions == []
 
     def update(self, pressed, time_delta, tilemap):
-        if not self.collision_check(tilemap) or self.speed == 0:
-            print(self.speed)
+        print(self.speed)# da se mahne
+        if not self.collision_check(tilemap) or self.speed == 0:#tova sus speeda e krupka za sega
             self.movement_controls(pressed)
-            self.update_position(time_delta)
         else:
-            print(self.speed)
             self.speed = - (self.speed * 0.8)
-            self.update_position(time_delta)
+        self.update_position(time_delta)
 
     def update_position(self, time_delta):
         direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
@@ -95,6 +94,9 @@ class Vehicle(sprite.Sprite):
         elif self.rotation < 0:
             self.rotation += 360
 
+        for point in self.points:
+            point.rotate(self.rotation)
+
     def movement_controls(self, pressed):
         if pressed[A]:
             self.rotation += 2
@@ -107,8 +109,10 @@ class Vehicle(sprite.Sprite):
             self.speed -= self.acceleration
 
         if not pressed[W] and not pressed[S] and self.speed != 0:
-            self.speed -= math.copysign(self.acceleration, self.speed)
-
+            if self.speed < self.acceleration:
+                self.speed = 0
+            else:
+                self.speed -= math.copysign(self.acceleration, self.speed)
         if pressed[A] or pressed[D]:
             self.image = transform.rotate(self.base_image, self.rotation)
             self.rect = self.image.get_rect()
