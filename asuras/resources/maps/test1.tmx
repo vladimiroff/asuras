@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="101" tileheight="101">
  <tileset firstgid="1" name="tilemap" tilewidth="101" tileheight="101">
-  <image source="D:\Git\BotWars\asuras\asuras\resources\maps/tilemap.png" width="1010" height="2020"/>
+  <image source="tilemap.png" width="1010" height="2020"/>
+  <tile id="29">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value="30,0;30,13;15,13;15,85;85,85;85,15;71,15;71,0"/>
+   </properties>
+  </tile>
+  <tile id="58">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value="30,0;71,0;71,101;30,101"/>
+   </properties>
+  </tile>
   <tile id="59">
    <properties>
     <property name="collidable" value="1"/>
-    <property name="points" value="0,0;101,10;101,91;0, 91"/>
+    <property name="points" value="0,30;101,30;101,71;0,71"/>
    </properties>
   </tile>
  </tileset>
@@ -16,7 +28,7 @@
  </layer>
  <layer name="Tile Layer 2" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt0zERAAAMAjGE1b+urh1w0OTuHUACAHw0Jfigbd8HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAawGapALR
+   eJzt1UEKABAQQNE5iYtw/3NZK2oKsXiv7CymvkkEAOyprwdgkO3RJofzMj1Wd+zWeSXmbz+zB3r8RY+/6PGO/xwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7uipWwYv
   </data>
  </layer>
 </map>

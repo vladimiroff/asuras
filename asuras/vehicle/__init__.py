@@ -48,7 +48,7 @@ class Vehicle(sprite.Sprite):
         super(__class__, self).__init__(*groups)
         self.position = Vec2d(location[0], location[1])
 
-    def collision_check(self, tilemap):
+    def collision_check(self, tilemap, time_delta):
         tile_container = (self.rect.center[0]//tilemap.layers[0].tile_width,self.rect.center[1]//tilemap.layers[0].tile_height)
         tile = tilemap.layers[0][tile_container]
         obsticles = []
@@ -65,8 +65,12 @@ class Vehicle(sprite.Sprite):
                             point_coords = point.split(',')
                             new_collidable_object.points.append(Vec2d(int(point_coords[0]), int(point_coords[1])))
                         obsticles.append(new_collidable_object)
+
+        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
+        direction.length = self.speed * time_delta
+
         player = Obsticle()
-        player.pos = self.rect.center
+        player.pos = self.position + direction
         player.points = self.points
         vehicle_colider = Detection(player, obsticles)
         vehicle_colider.line_by_line_check()
@@ -75,7 +79,7 @@ class Vehicle(sprite.Sprite):
 
     def update(self, pressed, time_delta, tilemap):
         print(self.speed)# da se mahne
-        if not self.collision_check(tilemap) or self.speed == 0:#tova sus speeda e krupka za sega
+        if not self.collision_check(tilemap, time_delta):
             self.movement_controls(pressed)
         else:
             self.speed = - (self.speed * 0.8)
