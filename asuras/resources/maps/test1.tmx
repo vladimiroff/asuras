@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="101" tileheight="101">
  <tileset firstgid="1" name="tilemap" tilewidth="101" tileheight="101">
-  <image source="C:/Users/David/Desktop/tilemap.png" width="1010" height="2020"/>
+  <image source="D:\Git\BotWars\asuras\asuras\resources\maps/tilemap.png" width="1010" height="2020"/>
   <tile id="59">
    <properties>
     <property name="collidable" value="1"/>
