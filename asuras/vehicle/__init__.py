@@ -12,6 +12,7 @@ A = 1
 S = 2
 D = 3
 
+
 class Obstacle:
     def __init__(self):
         self.pos = 0
@@ -22,28 +23,30 @@ class Vehicle(sprite.Sprite):
         'weight': 0,
         'inventory': 0,
         'dimenstion': 0,
+        'power_consumption': 0,
         'slots': {
-            'motions': {
-                'front': 0,
-                'back': 0,
-            },
-            'engines': {
-                'front': 0,
-                'back': 0,
-            },
-            'shields': ['front', 'back', 'left', 'right'],
-            'addons': 0,
-            'generators': 0,
+            'motions': 1,
+            'engines': 1,
+            'shields': 4,
+            'addons': 8,
+            'generators': 1,
         },
     }
 
-    _slots = {}
+    _slots = {
+        'motions': {},
+        'engines': {},
+        'shields': {},
+        'addons': {},
+        'generators': {},
+    }
 
     top_speed = 0
     speed = 0
     weight = 0.0
     acceleration = 0
     rotation = 0
+    power = 0
 
     def __init__(self, location, *groups):
         super(__class__, self).__init__(*groups)
@@ -126,17 +129,27 @@ class Vehicle(sprite.Sprite):
             self.rect = self.image.get_rect()
 
     def recalculate(self):
-        pass
+        parameters = {
+            'weight': self.DEFAULTS['weight'],
+            'power_generation': 0,
+            'power_consumption': self.DEFAULTS['power_consumption']
+        }
 
+        for group in self._slots.values():
+            for component in group.values():
+                for parameter in parameters:
+                    parameters[parameter] += getattr(component, parameter, 0)
 
-    def attach(self, component, slot, overwrite=True):
-        if component.group not in self.DEFAULTS['slots']:
+        for parameter in parameters:
+            setattr(self, parameter, parameters[parameter])
+
+    def attach(self, component, slot, overwrite=False):
+        if component.group not in self._slots or slot >= self.DEFAULTS['slots'][component.group]:
             return False
-        if not slot.is_empty:
-            if not overwrite:
-                return False
-        self._slots[component.group][slot] = component
+        if not self._slots[component.group].get(slot, None) or overwrite:
+            self._slots[component.group][slot] = component
         self.recalculate()
+        return self._slots[component.group][slot]
 
     def detach(self, component, slot):
         self._slots[component.group][slot] = None
