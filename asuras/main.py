@@ -24,19 +24,14 @@ class Game:
         self.tilemap.layers.append(self.sprites)
 
         while self.running:
-            try:
-                time_delta = clock.tick(45)
-                self.handle_keys()
-                self.tilemap.update([arrow[1] for arrow in self.arrows], time_delta / 100, self.tilemap)
-                self.tilemap.set_focus(self.player.vehicle.rect.x, self.player.vehicle.rect.y)
-                screen.fill((239, 237, 236))
-                self.tilemap.draw(screen)
-                self.draw(screen, self.player.vehicles.draw_me)
-                pygame.display.flip()
-            except:
-                import os, sys
-                if sys.platform == 'win32':
-                    os.system('pause')
+            time_delta = clock.tick(45)
+            self.handle_keys()
+            self.tilemap.update([arrow[1] for arrow in self.arrows], time_delta / 100, self.tilemap)
+            self.tilemap.set_focus(self.player.vehicle.rect.x, self.player.vehicle.rect.y)
+            screen.fill((239, 237, 236))
+            self.tilemap.draw(screen)
+            self.draw(screen, self.player.vehicle.draw_me)
+            pygame.display.flip()
 
     def draw(self, screen, objects):#Debugging purpouse
         for obj in objects:
@@ -71,4 +66,10 @@ class Game:
 if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption("Asuras")
-    Game().main(pygame.display.set_mode((1200, 800)))
+    try:
+        Game().main(pygame.display.set_mode((1200, 800)))
+    except Exception as e:
+            import os, sys
+            print(e)
+            if sys.platform == 'win32':
+                os.system('pause')
