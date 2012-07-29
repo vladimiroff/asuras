@@ -29,7 +29,12 @@ class Game:
             self.tilemap.set_focus(self.player.vehicle.rect.x, self.player.vehicle.rect.y)
             screen.fill((239, 237, 236))
             self.tilemap.draw(screen)
+            self.draw(screen, self.player.vehicles.draw_me)
             pygame.display.flip()
+
+    def draw(self, screen, objects):
+        for obj in objects:
+            pygame.draw.circle(screen, (255, 0, 0), obj, 2, 2)
 
     def handle_keys(self):
         for event in pygame.event.get():
