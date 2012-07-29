@@ -75,12 +75,16 @@ class Vehicle(sprite.Sprite):
         vehicle_colider = Detection(player, obstacles)
         vehicle_colider.line_by_line_check()
 
-        return not vehicle_colider.collisions == []
+        return vehicle_colider.collisions
 
     def update(self, pressed, time_delta, tilemap):
         print(self.speed)# da se mahne
-        if self.collision_check(tilemap, time_delta):
-            self.speed = - (self.speed * 0.8)
+        collision_result = self.collision_check(tilemap, time_delta)
+        self.draw_me = collision_result
+        if collision_result:
+            print(collision_result)
+            #colilision_speed = Vec2d(collision_result[0] - self.rect.center)
+            self.speed = - (self.speed * 0.1)
         else:
             self.movement_controls(pressed)
         self.update_position(time_delta)
