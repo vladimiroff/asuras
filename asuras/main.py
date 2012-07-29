@@ -14,6 +14,7 @@ class Game:
         [pygame.K_d, False],
     ]
 
+
     def main(self, screen):
         ''' The main loop '''
         clock = pygame.time.Clock()
@@ -37,9 +38,11 @@ class Game:
                 if sys.platform == 'win32':
                     os.system('pause')
 
-    def draw(self, screen, objects):
+    def draw(self, screen, objects):#Debugging purpouse
         for obj in objects:
-            pygame.draw.circle(screen, (255, 0, 0), obj, 2, 2)
+            pygame.draw.circle(screen, (255, 0, 0), (int(obj[0] - self.tilemap.viewport[0]),int(obj[1] - self.tilemap.viewport[1])), 2, 2)
+        for v_points in self.player.vehicle.points:
+            pygame.draw.circle(screen, (255, 0, 0), (int(v_points[0] + self.player.vehicle.rect.center[0] - self.tilemap.viewport[0]),int(v_points[1] + self.player.vehicle.rect.center[1] - self.tilemap.viewport[1])), 2, 2)
 
     def handle_keys(self):
         for event in pygame.event.get():
