@@ -14,6 +14,7 @@ class Game:
         [pygame.K_d, False],
     ]
 
+
     def main(self, screen):
         ''' The main loop '''
         clock = pygame.time.Clock()
