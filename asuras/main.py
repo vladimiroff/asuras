@@ -7,6 +7,7 @@ from libs import tmx
 
 class Game:
     running = True
+    wireframe_mode = False
     arrows = [
         [pygame.K_w, False],
         [pygame.K_a, False],
@@ -30,14 +31,21 @@ class Game:
             self.tilemap.set_focus(self.player.vehicle.rect.x, self.player.vehicle.rect.y)
             screen.fill((239, 237, 236))
             self.tilemap.draw(screen)
-            self.draw(screen, self.player.vehicle.draw_me)
+            if self.wireframe_mode:
+                self.draw_wireframe(screen, self.player.vehicle.near_obstacles, self.player.vehicle.collision_points)
             pygame.display.flip()
 
-    def draw(self, screen, objects):#Debugging purpouse
-        for obj in objects:
+    def draw_wireframe(self, screen, objects, collisions):#Debugging purpouse
+        viewport_pos = self.tilemap.viewport
+        for obj in collisions:
             pygame.draw.circle(screen, (255, 0, 0), (int(obj[0] - self.tilemap.viewport[0]),int(obj[1] - self.tilemap.viewport[1])), 2, 2)
         for v_points in self.player.vehicle.points:
-            pygame.draw.circle(screen, (255, 0, 0), (int(v_points[0] + self.player.vehicle.rect.center[0] - self.tilemap.viewport[0]),int(v_points[1] + self.player.vehicle.rect.center[1] - self.tilemap.viewport[1])), 2, 2)
+            pygame.draw.circle(screen, (0, 255, 0), (int(v_points[0] + self.player.vehicle.rect.center[0] - self.tilemap.viewport[0]),int(v_points[1] + self.player.vehicle.rect.center[1] - self.tilemap.viewport[1])), 2, 2)
+        for item in objects:
+            previos_point = item.points[len(item.points) - 1]
+            for point in item.points:
+                pygame.draw.line(screen, (0, 0, 255), item.pos + previos_point - viewport_pos, item.pos + point - viewport_pos)
+                previos_point = point
 
     def handle_keys(self):
         for event in pygame.event.get():
@@ -46,6 +54,8 @@ class Game:
             elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_BACKQUOTE:
                     ipdb.set_trace()
+                if event.key == pygame.K_TAB and event.type == pygame.KEYUP:
+                    self.wireframe_mode = not self.wireframe_mode
                 self.set_pressed_arrows(event.key)
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.mouse_up(event.button, event.pos)
@@ -69,7 +79,7 @@ if __name__ == '__main__':
     try:
         Game().main(pygame.display.set_mode((1200, 800)))
     except Exception as e:
-            import os, sys
-            print(e)
+            import os, sys, traceback
+            print(traceback.format_exc())
             if sys.platform == 'win32':
                 os.system('pause')

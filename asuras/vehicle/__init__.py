@@ -52,6 +52,10 @@ class Vehicle(sprite.Sprite):
         super(__class__, self).__init__(*groups)
         self.position = Vec2d(location[0], location[1])
 
+        self.near_obstacles = [] # Used only for debug wireframe mode
+        self.collision_points = [] # Used only for debug wireframe mode
+        self.result = 0
+
     def collision_check(self, tilemap, time_delta):
         tile_container = (self.rect.center[0] // tilemap.layers[0].tile_width, self.rect.center[1] // tilemap.layers[0].tile_height)
         obstacles = []
@@ -78,14 +82,42 @@ class Vehicle(sprite.Sprite):
         vehicle_colider = Detection(player, obstacles)
         vehicle_colider.line_by_line_check()
 
-        return vehicle_colider.collisions
+        self.near_obstacles = obstacles # Used only for debug wireframe mode
+
+        return vehicle_colider
+
+    def collision_reactor(self, line):
+        if line[1][0] == line[0][0]:
+            tangent = math.tan(math.radians(self.rotation))
+        else:
+            a_prime = (line[1][1] - line[0][1]) / (line[1][0] - line[0][0])
+            b_prime = line[0][1] - a_prime * line[0][0]
+            a_second = math.tan(math.radians(self.rotation))
+            tangent = (a_prime - a_second) / (1 + a_prime * a_second)
+
+        if tangent < 0:
+            self.rotation += 10
+            for point in self.points:
+                point.rotate(350)
+        elif tangent > 0:
+            self.rotation -= 10
+            for point in self.points:
+                point.rotate(10)
+
+        else:
+            self.speed = - self.speed
+
+        self.speed *= 0.1   
+        self.image = transform.rotate(self.base_image, self.rotation)
+        self.rect = self.image.get_rect()
+
 
     def update(self, pressed, time_delta, tilemap):
-        print(self.speed)# da se mahne
         collision_result = self.collision_check(tilemap, time_delta)
-        self.draw_me = collision_result
-        if collision_result:
-            self.speed = - (self.speed * 0.8)
+        self.result = collision_result
+        if collision_result.collisions and not self.speed == 0:
+            self.collision_points = collision_result.collisions
+            self.collision_reactor(collision_result.collision_lines[0])
         else:
             self.movement_controls(pressed)
         self.update_position(time_delta)
@@ -120,7 +152,7 @@ class Vehicle(sprite.Sprite):
             self.speed -= self.acceleration
 
         if not pressed[W] and not pressed[S] and self.speed != 0:
-            if self.speed < self.acceleration:
+            if abs(self.speed) < abs(self.acceleration):
                 self.speed = 0
             else:
                 self.speed -= math.copysign(self.acceleration, self.speed)
