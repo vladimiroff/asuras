@@ -82,9 +82,7 @@ class Vehicle(sprite.Sprite):
         collision_result = self.collision_check(tilemap, time_delta)
         self.draw_me = collision_result
         if collision_result:
-            print(collision_result)
-            #colilision_speed = Vec2d(collision_result[0] - self.rect.center)
-            self.speed = - (self.speed * 0.1)
+            self.speed = - (self.speed * 0.8)
         else:
             self.movement_controls(pressed)
         self.update_position(time_delta)
@@ -107,11 +105,11 @@ class Vehicle(sprite.Sprite):
         if pressed[A]:
             self.rotation += 2
             for point in self.points:
-                point.rotate(2)
+                point.rotate(358)
         if pressed[D]:
             self.rotation -= 2
             for point in self.points:
-                point.rotate(358)
+                point.rotate(2)
 
         if pressed[W] and abs(self.speed) < self.top_speed:
             self.speed += self.acceleration
