@@ -23,14 +23,19 @@ class Game:
         self.tilemap.layers.append(self.sprites)
 
         while self.running:
-            time_delta = clock.tick(45)
-            self.handle_keys()
-            self.tilemap.update([arrow[1] for arrow in self.arrows], time_delta / 100, self.tilemap)
-            self.tilemap.set_focus(self.player.vehicle.rect.x, self.player.vehicle.rect.y)
-            screen.fill((239, 237, 236))
-            self.tilemap.draw(screen)
-            self.draw(screen, self.player.vehicles.draw_me)
-            pygame.display.flip()
+            try:
+                time_delta = clock.tick(45)
+                self.handle_keys()
+                self.tilemap.update([arrow[1] for arrow in self.arrows], time_delta / 100, self.tilemap)
+                self.tilemap.set_focus(self.player.vehicle.rect.x, self.player.vehicle.rect.y)
+                screen.fill((239, 237, 236))
+                self.tilemap.draw(screen)
+                self.draw(screen, self.player.vehicles.draw_me)
+                pygame.display.flip()
+            except:
+                import os, sys
+                if sys.platform == 'win32':
+                    os.system('pause')
 
     def draw(self, screen, objects):
         for obj in objects:
