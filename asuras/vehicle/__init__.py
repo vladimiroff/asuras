@@ -91,28 +91,27 @@ class Vehicle(sprite.Sprite):
             b_prime = line[0][1] - a_prime * line[0][0]
             a_second = math.tan(math.radians(self.rotation))
             tangent = (a_prime - a_second) / (1 + a_prime * a_second)
-
+        modify = 1 + self.speed // 6
         if tangent < 0:
-            self.rotation += 15
+            self.rotation += modify
             for point in self.points:
-                point.rotate(345)
+                point.rotate(360 - modify)
         elif tangent > 0:
-            self.rotation -= 15
+            self.rotation -= modify
             for point in self.points:
-                point.rotate(15)
+                point.rotate(modify)
 
         else:
             self.speed = - self.speed
 
-        #self.speed *= 0.5   
+        self.speed *= 0.85   
         self.image = transform.rotate(self.base_image, self.rotation)
         self.rect = self.image.get_rect()
 
 
     def update(self, pressed, time_delta, tilemap):
-
         direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
-        direction.length = self.speed * time_delta
+        direction.length = self.speed
 
         predicted_collision_result = self.collision_check(tilemap, direction)
 
@@ -125,7 +124,7 @@ class Vehicle(sprite.Sprite):
         if predicted_collision_result.collisions and not self.speed == 0:
             self.collision_points = collision_result.collisions
             if collision_result.collisions:
-                self.speed = 0
+                self.speed = - self.speed * time_delta * 2
             else:
                 self.collision_reactor(predicted_collision_result.collision_lines[0])
             self.update_position(time_delta)
