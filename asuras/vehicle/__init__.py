@@ -56,7 +56,7 @@ class Vehicle(sprite.Sprite):
         self.collision_points = [] # Used only for debug wireframe mode
         self.result = 0
 
-    def collision_check(self, tilemap, time_delta):
+    def collision_check(self, tilemap, direction):
         tile_container = (self.rect.center[0] // tilemap.layers[0].tile_width, self.rect.center[1] // tilemap.layers[0].tile_height)
         obstacles = []
         for line in range(3):
@@ -72,9 +72,6 @@ class Vehicle(sprite.Sprite):
                             point_coords = point.split(',')
                             new_collidable_object.points.append(Vec2d(int(point_coords[0]), int(point_coords[1])))
                         obstacles.append(new_collidable_object)
-
-        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
-        direction.length = self.speed * time_delta
 
         player = Obstacle()
         player.pos = self.position + direction
@@ -96,23 +93,23 @@ class Vehicle(sprite.Sprite):
             tangent = (a_prime - a_second) / (1 + a_prime * a_second)
 
         if tangent < 0:
-            self.rotation += 10
+            self.rotation += 5
             for point in self.points:
-                point.rotate(350)
+                point.rotate(355)
         elif tangent > 0:
-            self.rotation -= 10
+            self.rotation -= 5
             for point in self.points:
-                point.rotate(10)
+                point.rotate(5)
 
         else:
             self.speed = - self.speed
 
-        self.speed *= 0.1   
+        #self.speed *= 0.5   
         self.image = transform.rotate(self.base_image, self.rotation)
         self.rect = self.image.get_rect()
 
 
-    def update(self, pressed, time_delta, tilemap):
+    '''def update(self, pressed, time_delta, tilemap):
         collision_result = self.collision_check(tilemap, time_delta)
         self.result = collision_result
         if collision_result.collisions and not self.speed == 0:
@@ -120,7 +117,29 @@ class Vehicle(sprite.Sprite):
             self.collision_reactor(collision_result.collision_lines[0])
         else:
             self.movement_controls(pressed)
-        self.update_position(time_delta)
+        self.update_position(time_delta)'''
+
+    def update(self, pressed, time_delta, tilemap):
+
+        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
+        direction.length = self.speed * time_delta
+
+        predicted_collision_result = self.collision_check(tilemap, direction)
+
+        collision_result = self.collision_check(tilemap, Vec2d(0,0))
+        
+        self.result = collision_result
+        
+        self.movement_controls(pressed)
+        
+        if predicted_collision_result.collisions and not self.speed == 0:
+            self.collision_points = collision_result.collisions
+            self.collision_reactor(predicted_collision_result.collision_lines[0])
+            if collision_result.collisions:
+                self.speed = 0
+            self.update_position(time_delta)
+        else:
+            self.update_position(time_delta)    
 
     def update_position(self, time_delta):
         direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
