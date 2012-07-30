@@ -93,13 +93,13 @@ class Vehicle(sprite.Sprite):
             tangent = (a_prime - a_second) / (1 + a_prime * a_second)
 
         if tangent < 0:
-            self.rotation += 5
+            self.rotation += 15
             for point in self.points:
-                point.rotate(355)
+                point.rotate(345)
         elif tangent > 0:
-            self.rotation -= 5
+            self.rotation -= 15
             for point in self.points:
-                point.rotate(5)
+                point.rotate(15)
 
         else:
             self.speed = - self.speed
@@ -108,16 +108,6 @@ class Vehicle(sprite.Sprite):
         self.image = transform.rotate(self.base_image, self.rotation)
         self.rect = self.image.get_rect()
 
-
-    '''def update(self, pressed, time_delta, tilemap):
-        collision_result = self.collision_check(tilemap, time_delta)
-        self.result = collision_result
-        if collision_result.collisions and not self.speed == 0:
-            self.collision_points = collision_result.collisions
-            self.collision_reactor(collision_result.collision_lines[0])
-        else:
-            self.movement_controls(pressed)
-        self.update_position(time_delta)'''
 
     def update(self, pressed, time_delta, tilemap):
 
@@ -134,9 +124,10 @@ class Vehicle(sprite.Sprite):
         
         if predicted_collision_result.collisions and not self.speed == 0:
             self.collision_points = collision_result.collisions
-            self.collision_reactor(predicted_collision_result.collision_lines[0])
             if collision_result.collisions:
                 self.speed = 0
+            else:
+                self.collision_reactor(predicted_collision_result.collision_lines[0])
             self.update_position(time_delta)
         else:
             self.update_position(time_delta)    
