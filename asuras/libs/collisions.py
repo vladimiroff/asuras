@@ -17,7 +17,7 @@ class Detection:
         self.collision_lines[:] = []
         previos_point = self.entity.points[-1]
         for collidable in self.objects:
-            collidable_previous_point = self.entity.points[-1]
+            collidable_previous_point = collidable.points[-1]
             for point in self.entity.points:
                 for collidable_point in collidable.points:
                     self.line_collider([self.entity.pos + previos_point,
