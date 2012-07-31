@@ -35,7 +35,7 @@ class Game:
                 self.draw_wireframe(screen, self.player.vehicle.near_obstacles, self.player.vehicle.collision_points)
             pygame.display.flip()
 
-    def draw_wireframe(self, screen, objects, collisions):#Debugging purpouse
+    def draw_wireframe(self, screen, objects, collisions):
         viewport_pos = self.tilemap.viewport
         for obj in collisions:
             pygame.draw.circle(screen, (255, 0, 0), (int(obj[0] - self.tilemap.viewport[0]),int(obj[1] - self.tilemap.viewport[1])), 2, 2)
