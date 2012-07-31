@@ -4,22 +4,44 @@ from vehicle import Vehicle
 from vehicle.types.normal import NormalVehicle
 from vehicle.components import VehicleComponent
 
-
 class BaseVehicleTests(unittest.TestCase):
 
     def setUp(self):
-        self.vehicle = Vehicle((10, 10))
-        self.normal = NormalVehicle((10, 10))
-        self.component = VehicleComponent()
-        self.component.group = 'engines'
+        self.v = Vehicle((10, 10))
+        self.n = NormalVehicle((10, 10))
+        self.component = VehicleComponent('motions')
 
     def test_defaults(self):
         self.assertIsInstance(self.vehicle.DEFAULTS, dict)
 
     def test_component_could_be_attach(self):
-        self.assertEqual(len(self.vehicle._slots), 0)
-        self.vehicle.attach(self.component, 'front')
-        self.assertEqual(len(self.vehicle._slots), 1)
+        self.assertIsNone(self.v._slots['motions'].get(0, None))
+        self.v.attach(VehicleComponent('motions'), 0)
+        self.assertIsNotNone(self.v._slots['motions'].get(0, None))
+
+    def test_try_to_attach_on_existing_slot(self):
+        attached_component = self.v.attach(self.component, 0)
+        second_component = VehicleComponent('motions')
+        self.v.attach(second_component, 0)
+        self.assertIs(self.v._slots[self.component.group][0], attached_component)
+        self.assertIsNot(self.v._slots['motions'][0], second_component)
+
+    def test_try_to_attach_on_existing_slot_using_overwrite(self):
+        attached_component = self.v.attach(self.component, 0)
+        second_component = VehicleComponent('motions')
+        self.v.attach(second_component, 0, overwrite=True)
+        self.assertIsNot(self.v._slots[self.component.group][0], attached_component)
+        self.assertIs(self.v._slots['motions'][0], second_component)
+
+    def test_detach(self):
+        self.v.attach(self.component, 0)
+        self.v.detach(self.component, 0)
+        self.assertIsNone(self.v._slots['motions'].get(0, None))
+
+    def test_recalculation(self):
+        self.assertEqual(self.v.weight, 0)
+        self.v.attach(self.component, 0)
+        self.assertGreater(self.v.weight, 0)
 
     def test_component_detach(self):
         self.vehicle.attach(self.component, 'front')

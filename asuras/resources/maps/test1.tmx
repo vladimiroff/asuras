@@ -1,51 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="51" tileheight="51">
- <tileset firstgid="1" name="Base" tilewidth="51" tileheight="51">
-  <image source="tilesetbeta.png" width="766" height="1582"/>
-  <tile id="0">
+<map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="101" tileheight="101">
+ <tileset firstgid="1" name="tilemap" tilewidth="101" tileheight="101">
+  <image source="tilemap.png" width="1010" height="2020"/>
+  <tile id="29">
    <properties>
     <property name="collidable" value="1"/>
+    <property name="points" value="30,0;30,13;15,13;15,85;85,85;85,15;71,15;71,0"/>
    </properties>
   </tile>
-  <tile id="1">
+  <tile id="58">
    <properties>
     <property name="collidable" value="1"/>
+    <property name="points" value="30,0;71,0;71,101;30,101"/>
    </properties>
   </tile>
-  <tile id="3">
+  <tile id="59">
    <properties>
     <property name="collidable" value="1"/>
-   </properties>
-  </tile>
-  <tile id="8">
-   <properties>
-    <property name="collidable" value="1"/>
-   </properties>
-  </tile>
-  <tile id="16">
-   <properties>
-    <property name="collidable" value="0"/>
-   </properties>
-  </tile>
-  <tile id="23">
-   <properties>
-    <property name="collidable" value="1"/>
-   </properties>
-  </tile>
-  <tile id="97">
-   <properties>
-    <property name="collidable" value="1"/>
-   </properties>
-  </tile>
-  <tile id="98">
-   <properties>
-    <property name="collidable" value="1"/>
+    <property name="points" value="0,30;101,30;101,71;0,71"/>
    </properties>
   </tile>
  </tileset>
- <layer name="Tile Layer 1" width="100" height="100" opacity="0.99">
+ <layer name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt07ENgDAQBEFDRkhGfbj/HoACMPABumBGutDJrzy11ubClnNrYYxVbnptK75jTI8semTRI4seWZ7ut9+sv3irx3fV/1EdY3pk0SOLHln0yKIHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA8LcDOmkZrQ==
+   eJztw8EJAAAMA6F7Z/+BC51DwVVTVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/ATpAhrA=
+  </data>
+ </layer>
+ <layer name="Tile Layer 2" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1tdKxGAUhdHYBfuAjg27wthGsJf3fy73jXfxN1GCYtaC7y7lwElIqgqADxNpMk2l6TSTZtNcmv/Fuf66146uu5AW01JaTitpNa2lQUf3/A+a7uOtppL1tJGGaTNtpe20k3a/NWk/NNnHZ8eUzt1PB+kwHaXjdJJO01mL+fpmr6p/9pu8B6V9jNJ5ukiX6Spdp3G6+fHU1Cnt4zbdpfv0kB7TU3pOL92P1ktd/QvwtbbfcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgmXeL1Qu3
   </data>
  </layer>
 </map>
