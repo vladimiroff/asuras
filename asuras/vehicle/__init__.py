@@ -113,7 +113,8 @@ class Vehicle(sprite.Sprite):
 
 
     def update(self, pressed, time_delta, tilemap):
-        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
+        direction = Vec2d(math.sin(math.radians(self.rotation)), 
+                            math.cos(math.radians(self.rotation)))
         direction.length = self.speed
         predicted_collision_result = self.collision_check(tilemap, direction)
         collision_result = self.collision_check(tilemap, Vec2d(0,0))
@@ -130,7 +131,8 @@ class Vehicle(sprite.Sprite):
             self.update_position(time_delta)
 
     def update_position(self, time_delta):
-        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
+        direction = Vec2d(math.sin(math.radians(self.rotation)),
+                             math.cos(math.radians(self.rotation)))
         direction.length = self.speed * time_delta
 
         self.position += direction
