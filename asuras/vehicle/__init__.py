@@ -90,7 +90,10 @@ class Vehicle(sprite.Sprite):
             a_prime = (line[1][1] - line[0][1]) / (line[1][0] - line[0][0])
             b_prime = line[0][1] - a_prime * line[0][0]
             a_second = math.tan(math.radians(self.rotation))
-            tangent = (a_prime - a_second) / (1 + a_prime * a_second)
+            if line[1][1] == line[0][1]:
+                tangent = (a_prime - a_second) / (1 + a_prime * a_second)
+            else:
+                tangent = - (a_prime - a_second) / (1 + a_prime * a_second)
         modify = 1 + self.speed // 6
         if tangent < 0:
             self.rotation += modify
