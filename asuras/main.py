@@ -32,19 +32,25 @@ class Game:
             screen.fill((239, 237, 236))
             self.tilemap.draw(screen)
             if self.wireframe_mode:
-                self.draw_wireframe(screen, self.player.vehicle.near_obstacles, self.player.vehicle.collision_points)
+                self.draw_wireframe(screen, self.player.vehicle.near_obstacles,
+                                            self.player.vehicle.collision_points)
             pygame.display.flip()
 
     def draw_wireframe(self, screen, objects, collisions):
         viewport_pos = self.tilemap.viewport
         for obj in collisions:
-            pygame.draw.circle(screen, (255, 0, 0), (int(obj[0] - self.tilemap.viewport[0]),int(obj[1] - self.tilemap.viewport[1])), 2, 2)
+            pygame.draw.circle(screen, (255, 0, 0),
+                (int(obj[0] - self.tilemap.viewport[0]),
+                int(obj[1] - self.tilemap.viewport[1])), 2, 2)
         for v_points in self.player.vehicle.points:
-            pygame.draw.circle(screen, (0, 255, 0), (int(v_points[0] + self.player.vehicle.rect.center[0] - self.tilemap.viewport[0]),int(v_points[1] + self.player.vehicle.rect.center[1] - self.tilemap.viewport[1])), 2, 2)
+            pygame.draw.circle(screen, (0, 255, 0), 
+                (int(v_points[0] + self.player.vehicle.rect.center[0] - self.tilemap.viewport[0]),
+                int(v_points[1] + self.player.vehicle.rect.center[1] - self.tilemap.viewport[1])), 2, 2)
         for item in objects:
             previos_point = item.points[len(item.points) - 1]
             for point in item.points:
-                pygame.draw.line(screen, (0, 0, 255), item.pos + previos_point - viewport_pos, item.pos + point - viewport_pos)
+                pygame.draw.line(screen, (0, 0, 255), item.pos + previos_point - viewport_pos,
+                                                     item.pos + point - viewport_pos)
                 previos_point = point
 
     def handle_keys(self):
@@ -77,7 +83,7 @@ if __name__ == '__main__':
     pygame.init()
     pygame.display.set_caption("Asuras")
     try:
-        Game().main(pygame.display.set_mode((1200, 800)))
+        Game().main(pygame.display.set_mode((1000, 600)))
     except Exception as e:
             import os, sys, traceback
             print(traceback.format_exc())
