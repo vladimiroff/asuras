@@ -77,7 +77,7 @@ class Game:
         pass
 
     def mouse_motion(self, buttons, pos, rel):
-        pass
+        self.player.vehicle._slots['weapons'][0].update(pos, self.player.vehicle.position, self.tilemap.viewport)
 
 if __name__ == '__main__':
     pygame.init()

@@ -20,6 +20,7 @@ class NormalVehicle(Vehicle):
             'shields': ['front', 'back', 'left', 'right'],
             'addons': 8,
             'generators': 1,
+            'weapons': 1
         },
     }
     top_speed = 50

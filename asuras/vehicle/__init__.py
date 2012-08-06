@@ -1,6 +1,7 @@
 import math
 from pygame import sprite, transform
 
+from vehicle.components.weapon import Weapon
 from libs.vec2d import Vec2d
 from libs.collisions import Detection
 from libs.tmx.cells import Cell
@@ -39,6 +40,7 @@ class Vehicle(sprite.Sprite):
         'shields': {},
         'addons': {},
         'generators': {},
+        'weapons': {},
     }
 
     top_speed = 0
@@ -49,12 +51,15 @@ class Vehicle(sprite.Sprite):
     power = 0
 
     def __init__(self, location, *groups):
-        super(__class__, self).__init__(*groups)
+        super().__init__(*groups)
         self.position = Vec2d(location[0], location[1])
 
         self.near_obstacles = []
         self.collision_points = []
         self.result = 0
+
+        turret = Weapon((320, 240), *groups)
+        self.attach(turret, 0)
 
     def collision_check(self, tilemap, direction):
         tile_container = (self.rect.center[0] // tilemap.layers[0].tile_width, self.rect.center[1] // tilemap.layers[0].tile_height)
@@ -173,7 +178,7 @@ class Vehicle(sprite.Sprite):
         parameters = {
             'weight': self.DEFAULTS['weight'],
             'power_generation': 0,
-            'power_consumption': self.DEFAULTS['power_consumption']
+            'power_consumption': self.DEFAULTS.get('power_consumption', 0)
         }
 
         for group in self._slots.values():
