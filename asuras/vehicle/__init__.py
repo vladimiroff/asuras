@@ -62,11 +62,13 @@ class Vehicle(sprite.Sprite):
         self.attach(turret, 0)
 
     def collision_check(self, tilemap, direction):
-        tile_container = (self.rect.center[0] // tilemap.layers[0].tile_width, self.rect.center[1] // tilemap.layers[0].tile_height)
+        tile_container = (self.rect.center[0] // tilemap.layers[0].tile_width, 
+                          self.rect.center[1] // tilemap.layers[0].tile_height)
         obstacles = []
         for line in range(3):
             for col in range(3):
-                curent_tile = tilemap.layers[1][(tile_container[0] + line - 1, tile_container[1] + col - 1)]
+                curent_tile = tilemap.layers[1][(tile_container[0] + line - 1,
+                                                 tile_container[1] + col - 1)]
                 if type(curent_tile) is cells.Cell:
                     if curent_tile.tile.properties['collidable']:
                         object_points = curent_tile.tile.properties['points'].split(';')
@@ -75,7 +77,8 @@ class Vehicle(sprite.Sprite):
                         new_collidable_object.points = []
                         for point in object_points:
                             point_coords = point.split(',')
-                            new_collidable_object.points.append(Vec2d(int(point_coords[0]), int(point_coords[1])))
+                            new_collidable_object.points.append(Vec2d(int(point_coords[0]),
+                                                                      int(point_coords[1])))
                         obstacles.append(new_collidable_object)
 
         player = Obstacle()
