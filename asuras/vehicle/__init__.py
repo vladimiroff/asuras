@@ -134,8 +134,8 @@ class Vehicle(sprite.Sprite):
             self.update_position(time_delta)
         else:
             self.update_position(time_delta)
-        self.items_layer.update(self.position)
-
+        self.items_layer.update(Vec2d(self.position[0] - tilemap.viewport[0],
+                                     self.position[1] - tilemap.viewport[1]))
 
     def update_position(self, time_delta):
         direction = Vec2d(math.sin(math.radians(self.rotation)),
