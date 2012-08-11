@@ -29,12 +29,13 @@ class NormalVehicle(Vehicle):
     acceleration = 1
     rotation = 0
 
-    def __init__(self, position, *groups):
-        super().__init__(position, *groups)
+    def __init__(self, position, items_layer, *groups):
+        super().__init__(position, items_layer, *groups)
         self.image = image.load('resources/tank.png')
         self.base_image = self.image
         self.rect = self.image.get_rect()
         self.rect.center = self.position
+        self.items_layer = items_layer
         self.points = [Vec2d(-7, -32),
                        Vec2d(-20, -23),
                        Vec2d(-20, -13),

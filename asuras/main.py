@@ -21,7 +21,8 @@ class Game:
         clock = pygame.time.Clock()
         self.tilemap = tmx.load('resources/maps/test1.tmx', screen.get_size())
         self.sprites = tmx.layers.SpriteLayer()
-        self.player = Player(self.sprites)
+        self.items = tmx.layers.SpriteLayer()
+        self.player = Player(self.items, self.sprites)
         self.tilemap.layers.append(self.sprites)
 
         while self.running:
@@ -31,6 +32,7 @@ class Game:
             self.tilemap.set_focus(self.player.vehicle.rect.x, self.player.vehicle.rect.y)
             screen.fill((239, 237, 236))
             self.tilemap.draw(screen)
+            self.items.draw(screen)
             if self.wireframe_mode:
                 self.draw_wireframe(screen, self.player.vehicle.near_obstacles,
                                             self.player.vehicle.collision_points)

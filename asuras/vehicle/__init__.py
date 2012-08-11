@@ -4,7 +4,7 @@ from pygame import sprite, transform
 from vehicle.components.weapon import Weapon
 from libs.vec2d import Vec2d
 from libs.collisions import Detection
-from libs.tmx.cells import Cell
+from libs.tmx import cells
 
 
 # Keys in pressed_arrows
@@ -50,15 +50,15 @@ class Vehicle(sprite.Sprite):
     rotation = 0
     power = 0
 
-    def __init__(self, location, *groups):
+    def __init__(self, location, items_layer, *groups):
         super().__init__(*groups)
         self.sprite_groups = groups
         self.position = Vec2d(location[0], location[1])
-
+        self.items_layer = items_layer
         self.near_obstacles = []
         self.collision_points = []
         self.result = 0
-        turret = Weapon((320, 240), *self.sprite_groups)
+        turret = Weapon((320, 240))
         self.attach(turret, 0)
 
     def collision_check(self, tilemap, direction):
@@ -67,7 +67,7 @@ class Vehicle(sprite.Sprite):
         for line in range(3):
             for col in range(3):
                 curent_tile = tilemap.layers[1][(tile_container[0] + line - 1, tile_container[1] + col - 1)]
-                if type(curent_tile) is Cell:
+                if type(curent_tile) is cells.Cell:
                     if curent_tile.tile.properties['collidable']:
                         object_points = curent_tile.tile.properties['points'].split(';')
                         new_collidable_object = Obstacle()
@@ -93,7 +93,7 @@ class Vehicle(sprite.Sprite):
             tangent = math.tan(math.radians(self.rotation))
         else:
             a_prime = (line[1][1] - line[0][1]) / (line[1][0] - line[0][0])
-            b_prime = line[0][1] - a_prime * line[0][0]
+            b_prime = line[0][1] - a_prime * line[0][0] # Not used for now
             a_second = math.tan(math.radians(self.rotation))
             if line[1][1] == line[0][1]:
                 tangent = (a_prime - a_second) / (1 + a_prime * a_second)
@@ -134,6 +134,7 @@ class Vehicle(sprite.Sprite):
             self.update_position(time_delta)
         else:
             self.update_position(time_delta)
+        self.items_layer.update(self.position)
 
 
     def update_position(self, time_delta):
@@ -196,6 +197,7 @@ class Vehicle(sprite.Sprite):
         if not self._slots[component.group].get(slot, None) or overwrite:
             self._slots[component.group][slot] = component
         self.recalculate()
+        self.items_layer.add(component)
         return self._slots[component.group][slot]
 
     def detach(self, component, slot):
