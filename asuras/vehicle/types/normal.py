@@ -30,7 +30,7 @@ class NormalVehicle(Vehicle):
     rotation = 0
 
     def __init__(self, position, *groups):
-        super(__class__, self).__init__(position, *groups)
+        super().__init__(position, *groups)
         self.image = image.load('resources/tank.png')
         self.base_image = self.image
         self.rect = self.image.get_rect()

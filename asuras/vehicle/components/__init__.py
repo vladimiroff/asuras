@@ -7,4 +7,5 @@ class VehicleComponent(sprite.Sprite):
 
     def __init__(self, group, *sprite_groups):
         self.group = group
+        #import ipdb; ipdb.set_trace()
         super().__init__(*sprite_groups)

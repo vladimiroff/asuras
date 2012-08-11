@@ -52,13 +52,13 @@ class Vehicle(sprite.Sprite):
 
     def __init__(self, location, *groups):
         super().__init__(*groups)
+        self.sprite_groups = groups
         self.position = Vec2d(location[0], location[1])
 
         self.near_obstacles = []
         self.collision_points = []
         self.result = 0
-
-        turret = Weapon((320, 240), *groups)
+        turret = Weapon((320, 240), *self.sprite_groups)
         self.attach(turret, 0)
 
     def collision_check(self, tilemap, direction):
@@ -134,6 +134,7 @@ class Vehicle(sprite.Sprite):
             self.update_position(time_delta)
         else:
             self.update_position(time_delta)
+
 
     def update_position(self, time_delta):
         direction = Vec2d(math.sin(math.radians(self.rotation)),
