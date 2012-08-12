@@ -24,6 +24,9 @@ class Layout(list):
             for horizontal_index in range(size[1]):
                 self[vertical_index].append(Cell((horizontal_index, vertical_index)))
 
+    def attach(self, widget):
+        pass
+
 class Window(sprite.Sprite):
     '''
     Window implementation
@@ -36,5 +39,3 @@ class Window(sprite.Sprite):
 
     def update(self):
         pass
-
-
