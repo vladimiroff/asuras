@@ -1,0 +1,17 @@
+{
+   "folders":
+   [
+        {
+            "path": "asuras"
+        }
+    ],
+    "build_systems":
+    [
+        {
+            "name": "Asuras",
+            "working_dir": "$project_path/asuras/",
+            "cmd": ["python", "main.py"],
+            "shell": true
+        }
+    ]
+}
