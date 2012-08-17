@@ -51,4 +51,5 @@ class NormalVehicle(Vehicle):
                        Vec2d(15, -8),
                        Vec2d(20, -13),
                        Vec2d(20, -23),
-                       Vec2d(7, -32),]
+                       Vec2d(7, -32)]
+        self.pivot_points = [Vec2d(0, -5)]
