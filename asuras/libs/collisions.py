@@ -1,5 +1,12 @@
 from libs.vec2d import Vec2d
 
+class Obstacle:
+    def __init__(self):
+        self.pos = 0
+        self.points = []
+        self.pivot_points = []
+
+
 class Detection:
     '''
     Just some basic collision detection using

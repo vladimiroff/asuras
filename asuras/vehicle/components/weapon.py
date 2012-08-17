@@ -23,15 +23,16 @@ class Weapon(VehicleComponent):
 
     def vriable_refresh(self, mouse_pos, position, screen_focus):
         direction = Vec2d(mouse_pos[0] - (position[0] - screen_focus[0]),
-                          mouse_pos[1] - (position[1] - screen_focus[1]))
+                        mouse_pos[1] - (position[1] - screen_focus[1]))
         direction.length = 1
+        self.direction = direction
         if direction[1] < 0:
             modify = (90 - math.degrees(math.asin(direction[0]))) * 2
         else:
             modify = 0
         self.rotation = math.degrees(math.asin(direction[0])) + modify
 
-    def update(self, position, *args):
+    def update(self, position, vehicle, *args):
         self.image = transform.rotate(self.base_image, self.rotation)
         self.rect = self.image.get_rect()
-        self.rect.center = position
+        self.rect.center = position  + vehicle.pivot_points[0]

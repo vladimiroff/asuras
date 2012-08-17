@@ -3,8 +3,9 @@ from pygame import sprite, transform
 
 from vehicle.components.weapon import Weapon
 from libs.vec2d import Vec2d
-from libs.collisions import Detection
+from libs.collisions import Detection, Obstacle
 from libs.tmx import cells
+from entities.bullet import Bullet
 
 
 # Keys in pressed_arrows
@@ -14,10 +15,6 @@ S = 2
 D = 3
 
 
-class Obstacle:
-    def __init__(self):
-        self.pos = 0
-        self.points = []
 
 class Vehicle(sprite.Sprite):
     DEFAULTS = {
@@ -107,11 +104,14 @@ class Vehicle(sprite.Sprite):
             self.rotation += modify
             for point in self.points:
                 point.rotate(360 - modify)
+            for pivot_point in self.pivot_points:
+                pivot_point.rotate(360 - modify)
         elif tangent > 0:
             self.rotation -= modify
             for point in self.points:
                 point.rotate(modify)
-
+            for pivot_point in self.pivot_points:
+                pivot_point.rotate(modify)
         else:
             self.speed = - self.speed
 
@@ -137,8 +137,8 @@ class Vehicle(sprite.Sprite):
             self.update_position(time_delta)
         else:
             self.update_position(time_delta)
-        self.items_layer.update(Vec2d(self.position[0] - tilemap.viewport[0],
-                                     self.position[1] - tilemap.viewport[1]))
+        self.items_layer.update(Vec2d(self.rect.center[0] - tilemap.viewport[0],
+                                     self.rect.center[1] - tilemap.viewport[1]), self)
 
     def update_position(self, time_delta):
         direction = Vec2d(math.sin(math.radians(self.rotation)),
@@ -146,8 +146,6 @@ class Vehicle(sprite.Sprite):
         direction.length = self.speed * time_delta
 
         self.position += direction
-        self.rect.x = self.position[0]
-        self.rect.y = self.position[1]
         self.rect.center = self.position
 
         if self.rotation > 360:
@@ -160,10 +158,14 @@ class Vehicle(sprite.Sprite):
             self.rotation += 2
             for point in self.points:
                 point.rotate(358)
+            for pivot_point in self.pivot_points:
+                pivot_point.rotate(358)
         if pressed[D]:
             self.rotation -= 2
             for point in self.points:
                 point.rotate(2)
+            for pivot_point in self.pivot_points:
+                pivot_point.rotate(2)
 
         if pressed[W] and abs(self.speed) < self.top_speed:
             self.speed += self.acceleration
@@ -193,6 +195,11 @@ class Vehicle(sprite.Sprite):
 
         for parameter in parameters:
             setattr(self, parameter, parameters[parameter])
+
+    def fire(self, projectiles):
+        projectile = Bullet(self.position + self.pivot_points[0], 
+                            self._slots['weapons'][0].direction, 0)
+        projectiles.add(projectile)
 
     def attach(self, component, slot, overwrite=False):
         if component.group not in self._slots or slot >= self.DEFAULTS['slots'][component.group]:
