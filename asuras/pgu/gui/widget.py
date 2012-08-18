@@ -228,7 +228,7 @@ class Widget:
             cnt = cnt.container
         return pygame.Rect(x, y, self.rect.w, self.rect.h)
 
-    def connect(self,code,func,*params):
+    def connect(self, code, func, *params):
         """Connect an event code to a callback function.
 
         Note that there may be multiple callbacks per event code.
@@ -251,24 +251,23 @@ class Widget:
 
             w = Button("PGU!")
             w.connect(gui.CLICK,onclick,'PGU Button Clicked')
-
         """
-        if (not code in self.connects):
+        if not code in self.connects:
             self.connects[code] = []
-        for cb in self.connects[code]:
-            if (cb.func == func):
-                # Already connected to this callback function
+        for callback in self.connects[code]:
+            if callback.func == func:
                 return
-        # Wrap the callback function and add it to the list
-        cb = SignalCallback()
-        cb.func = func
-        cb.params = params
-        self.connects[code].append(cb)
 
-    # Remove signal handlers from the given event code. If func is specified,
-    # only those handlers will be removed. If func is None, all handlers
-    # will be removed.
+        callback = SignalCallback()
+        callback.func = func
+        callback.params = params
+        self.connects[code].append(callback)
+
     def disconnect(self, code, func=None):
+        '''Remove signal handlers from the given event code. If func is specified,
+        only those handlers will be removed. If func is None, all handlers
+        will be removed.
+        '''
         if (not code in self.connects):
             return
         if (not func):

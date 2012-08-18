@@ -42,7 +42,7 @@ class App(container.Container):
             else:
                 self.theme = Theme()
         else:
-            self.theme = theme
+            selu.theme = theme
 
         params['decorate'] = 'app'
         container.Container.__init__(self,**params)
@@ -195,10 +195,10 @@ class App(container.Container):
 
         container.Container.paint(self, self.screen)
 
-    def update(self,screen=None):
+    def update(self, screen=None):
         """Update the screen in a semi-efficient manner, and returns
         a list of pygame rects to be updated."""
-        if (screen):
+        if screen:
             self.screen = screen
 
         if self._chsize:
@@ -213,13 +213,13 @@ class App(container.Container):
                                  self.screen.get_width(),
                                  self.screen.get_height())]
         else:
-            rects = container.Container.update(self,self.screen)
+            rects = container.Container.update(self, self.screen)
 
         if (self.app_area):
             # Translate the rects from subsurface coordinates into
             # full display coordinates.
-            for r in rects:
-                r.move_ip(self.app_area.topleft)
+            for rect in rects:
+                rect.move_ip(self.app_area.topleft)
 
         return rects
 
@@ -234,7 +234,7 @@ class App(container.Container):
             screen -- the pygame surface to render to
             delay -- the delay between updates (in milliseconds)
         """
-        self.init(widget,screen)
+        self.init(widget, screen)
         while not self._quit:
             self.loop()
             pygame.time.wait(delay)
