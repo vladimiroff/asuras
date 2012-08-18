@@ -41,13 +41,13 @@
   <tile id="60">
    <properties>
     <property name="collidable" value="1"/>
-    <property name="points" value="10,10;20,10;20,20;20,10"/>
+    <property name="points" value="10,10;20,10;20,20;10,20"/>
    </properties>
   </tile>
   <tile id="61">
    <properties>
     <property name="collidable" value="1"/>
-    <property name="points" value="10,10;20,10;20,20;20,10"/>
+    <property name="points" value="10,10;20,10;20,20;10,20"/>
    </properties>
   </tile>
  </tileset>
@@ -58,7 +58,7 @@
  </layer>
  <layer name="Tile Layer 2" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt10EOwiAUBUB06x28CLb3P5a6MEECgVqxjZ1JCBva/vCAhhAAYJ24dQG86c3jVmhLnR7t/MFzR9KTR21MTPrWe55ZXHqLOrBrKK/90j7I13cpj7nwDVmMkc9pz/6Qxe+08pDFOq1zq3aO1fKQxTZ6/ucv08hC/szSu0jMer5LHvuSzmvrXJmDPEbruYukTR77Ig8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgGO6A6faEYo=
+   eJzt10sOgjAUQNHq1D24kQr7X5YyQ/KaFrFC5JykYcKn4UIJKQHANnnvCfCmtccjGGtdXuP6wXFn0tKjtE+ebWvnmVrcWid1YvcUP/vRe7B8vqMeY3ANLfpY3tOW90OL36n10GKb2rpVWsdKPbTYx9Qi+m5Ehp4T+TNr/0XyYst36XEs8/taW1fGpEdvLf8i86HHsegBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHBOT0gsEY0=
   </data>
  </layer>
 </map>
