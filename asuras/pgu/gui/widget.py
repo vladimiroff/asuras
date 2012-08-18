@@ -12,7 +12,7 @@ class SignalCallback:
     # The parameters to pass to the function (as a list)
     params = None
 
-class Widget(object):
+class Widget:
     """Base class for all PGU graphical objects.
 
     Example - Creating your own Widget:
@@ -52,6 +52,7 @@ class Widget(object):
     connects = None
     # The area covered by the widget, relative to the parent widget
     rect = None
+    value = None
 
     def __init__(self, **params):
         """Create a new Widget instance given the style parameters.
@@ -74,7 +75,6 @@ class Widget(object):
                 (default is True)
             disabled -- True of this widget is disabled (defaults is False)
             value -- initial value
-
         """
         #object.Object.__init__(self)
         self.connects = {}
@@ -99,18 +99,20 @@ class Widget(object):
         self.style = style.Style(self,s)
 
         self.cls = 'default'
-        if 'cls' in params: self.cls = params['cls']
+        if 'cls' in params:
+            self.cls = params['cls']
         if 'name' in params:
             from . import form
             self.name = params['name']
             if form.Form.form:
                 form.Form.form.add(self)
                 self.form = form.Form.form
-        if 'value' in params: self.value = params['value']
+        if 'value' in params:
+            self.value = params['value']
         self.pcls = ""
 
         if params['decorate'] != False:
-            if (not pguglobals.app):
+            if not pguglobals.app:
                 # TODO - fix this somehow
                 from . import app
                 app.App()

@@ -52,7 +52,7 @@ class Color(widget.Widget):
 
     """
 
-    _value = None
+    value = None
 
     def __init__(self, value=None, **params):
         params.setdefault('focusable', False)
@@ -63,21 +63,6 @@ class Color(widget.Widget):
     def paint(self, s):
         if hasattr(self, 'value') and is_color(self.value):
             s.fill(self.value)
-
-    @property
-    def value(self):
-        return self._value
-
-    @value.setter
-    def valueue(self,  value):
-        if (isinstance(value,  str)):
-            value = parse_color(value)
-        old_value = self._value
-        self._valueue = value
-        if (old_value != value):
-            self.send(events.CHANGE)
-            self.repaint()
-
 
 class Label(widget.Widget):
     """A text label widget."""

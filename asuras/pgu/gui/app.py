@@ -29,22 +29,19 @@ class App(container.Container):
     # The region of the (full) pygame display that contains the GUI. If set,
     # this is used when transforming the mouse position from screen
     # coordinates into the subsurface coordinates.
-    appArea = None
+    app_area = None
 
     def __init__(self, theme=None, **params):
         """Create a new application given the (optional) theme instance."""
         self.set_global_app()
 
-        if (not theme):
+        if not theme:
             name = os.getenv("PGU_THEME", "").strip()
-            if (name):
-                # Use the environment variable defined theme
+            if name:
                 self.theme = Theme(name)
             else:
-                # Default theme
                 self.theme = Theme()
         else:
-            # Use the user-supplied theme
             self.theme = theme
 
         params['decorate'] = 'app'
@@ -113,13 +110,13 @@ class App(container.Container):
 
         self.set_global_app()
 
-        if (widget):
+        if widget:
             # Set the top-level widget
             self.widget = widget
-        if (screen):
-            if (area):
+        if screen:
+            if area:
                 # Take a subsurface of the given screen
-                self.appArea = area
+                self.app_area = area
                 self.screen = screen.subsurface(area)
             else:
                 # Use the entire screen for the app
@@ -148,14 +145,14 @@ class App(container.Container):
         """
         self.set_global_app()
 
-        if (self.appArea and hasattr(ev, "pos")):
+        if self.app_area and hasattr(ev, "pos"):
             # Translate into subsurface coordinates
-            pos = (ev.pos[0]-self.appArea.x,
-                   ev.pos[1]-self.appArea.y)
+            pos = (ev.pos[0]-self.app_area.x,
+                   ev.pos[1]-self.app_area.y)
             args = {"pos" : pos}
             # Copy over other misc mouse parameters
             for name in ("buttons", "rel", "button"):
-                if (hasattr(ev, name)):
+                if hasattr(ev, name):
                     args[name] = getattr(ev, name)
 
             ev = pygame.event.Event(ev.type, args)
@@ -218,11 +215,11 @@ class App(container.Container):
         else:
             rects = container.Container.update(self,self.screen)
 
-        if (self.appArea):
+        if (self.app_area):
             # Translate the rects from subsurface coordinates into
             # full display coordinates.
             for r in rects:
-                r.move_ip(self.appArea.topleft)
+                r.move_ip(self.app_area.topleft)
 
         return rects
 
