@@ -31,23 +31,20 @@ class Table(container.Container):
         params.setdefault('cls','table')
         container.Container.__init__(self, **params)
         self._rows = []
-        self._curRow = 0
+        self._current_row = 0
         self._trok = False
         self._hpadding = params.get("hpadding", 0)
         self._vpadding = params.get("vpadding", 0)
 
-    def getRows(self):
+    def get_rows(self):
         return len(self._rows)
 
-    def getColumns(self):
-        if self._rows:
-            return len(self._rows[0])
-        else:
-            return 0
+    def get_columns(self):
+        return len(self._rows[0]) if self._rows else 0
 
     def remove_row(self, n): #NOTE: won't work in all cases.
-        if n >= self.getRows():
-            print(("Trying to remove a nonexistant row:", n, "there are only", self.getRows(), "rows"))
+        if n >= self.get_rows():
+            print(("Trying to remove a nonexistant row:", n, "there are only", self.get_rows(), "rows"))
             return
 
         for cell in self._rows[n]:
@@ -60,8 +57,8 @@ class Table(container.Container):
         for w in self.widgets:
             if w.style.row > n: w.style.row -= 1
 
-        if self._curRow >= n:
-            self._curRow -= 1
+        if self._current_row >= n:
+            self._current_row -= 1
 
         #self.rect.w, self.rect.h = self.resize()
         #self.repaint()
@@ -70,7 +67,7 @@ class Table(container.Container):
 
     def clear(self):
         self._rows = []
-        self._curRow = 0
+        self._current_row = 0
         self._trok = False
 
         self.widgets = []
@@ -80,15 +77,15 @@ class Table(container.Container):
         #print 'clear',self,self._rows
 
     def _addRow(self):
-        self._rows.append([None for x in range(self.getColumns())])
+        self._rows.append([None for x in range(self.get_columns())])
 
     def tr(self):
         """Start on the next row."""
         if not self._trok:
             self._trok = True
             return
-        self._curRow += 1
-        if self.getRows() <= self._curRow:
+        self._current_row += 1
+        if self.get_rows() <= self._current_row:
             self._addRow()
 
     def _addColumn(self):
@@ -97,11 +94,11 @@ class Table(container.Container):
         for row in self._rows:
             row.append(None)
 
-    def _setCell(self, w, col, row, colspan=1, rowspan=1):
+    def _set_cell(self, w, col, row, colspan=1, rowspan=1):
         #make room for the widget by adding columns and rows
-        while self.getColumns() < col + colspan:
+        while self.get_columns() < col + colspan:
             self._addColumn()
-        while self.getRows() < row + rowspan:
+        while self.get_rows() < row + rowspan:
             self._addRow()
 
         #print w.__class__.__name__,col,row,colspan,rowspan
@@ -128,12 +125,12 @@ class Table(container.Container):
                     self._rows[arow][acell] = True
 
 
-    def td(self, w, col=None, row=None, colspan=1, rowspan=1, **params):
+    def td(self, widget, column=None, row=None, colspan=1, rowspan=1, **params):
         """Add a widget to a table after wrapping it in a TD container.
 
         Keyword arguments:
-            w -- widget
-            col -- column
+            widget -- widget
+            column -- column
             row -- row
             colspan -- colspan
             rowspan -- rowspan
@@ -143,39 +140,34 @@ class Table(container.Container):
 
         """
 
-        Table.add(self,_Table_td(w, **params), col=col, row=row, colspan=colspan, rowspan=rowspan)
+        Table.add(self, _Table_td(widget, **params), column=column, row=row, colspan=colspan, rowspan=rowspan)
 
-    def add(self, w, col=None, row=None, colspan=1, rowspan=1):
+    def add(self, widget, column=None, row=None, colspan=1, rowspan=1):
         """Add a widget directly into the table, without wrapping it in a TD container.
 
         See Table.td for an explanation of the parameters.
 
+        Try to find an open cell for the widget
+        otherwise put the widget in a new column
         """
         self._trok = True
-        #if no row was specifically specified, set it to the current row
-        if row is None:
-            row = self._curRow
-            #print row
 
-        #if its going to be a new row, have it be on the first column
-        if row >= self.getRows():
-            col = 0
+        if not row:
+            row = self._current_row
 
-        #try to find an open cell for the widget
-        if col is None:
-            for cell in range(self.getColumns()):
-                if col is None and not self._rows[row][cell]:
-                    col = cell
+        if row >= self.get_rows():
+            column = 0
+
+        if not column:
+            for cell in range(self.get_columns()):
+                if not self._rows[row][cell]:
+                    column = cell
                     break
+            else:
+                column = self.get_columns()
 
-        #otherwise put the widget in a new column
-        if col is None:
-            col = self.getColumns()
-
-        self._setCell(w, col, row, colspan=colspan, rowspan=rowspan)
-
+        self._set_cell(widget, column, row, colspan=colspan, rowspan=rowspan)
         self.chsize()
-        return
 
     def remove(self,w):
         if hasattr(w,'_table_td'): w = w._table_td
@@ -192,9 +184,9 @@ class Table(container.Container):
 
 
     def resize(self, width=None, height=None):
-        #if 1 or self.getRows() == 82:
+        #if 1 or self.get_rows() == 82:
             #print ''
-            #print 'resize',self.getRows(),self.getColumns(),width,height
+            #print 'resize',self.get_rows(),self.get_columns(),width,height
             #import inspect
             #for obj,fname,line,fnc,code,n in inspect.stack()[9:20]:
             #    print fname,line,':',fnc,code[0].strip()
@@ -205,10 +197,10 @@ class Table(container.Container):
             w.rect.w, w.rect.h = w.resize()
 
         #calculate row heights and column widths
-        rowsizes = [0 for y in range(self.getRows())]
-        columnsizes = [0 for x in range(self.getColumns())]
-        for row in range(self.getRows()):
-            for cell in range(self.getColumns()):
+        rowsizes = [0 for y in range(self.get_rows())]
+        columnsizes = [0 for x in range(self.get_columns())]
+        for row in range(self.get_rows()):
+            for cell in range(self.get_columns()):
                 if self._rows[row][cell] and self._rows[row][cell] is not True:
                     if not self._rows[row][cell]["colspan"] > 1:
                         columnsizes[cell] = max(columnsizes[cell], self._rows[row][cell]["widget"].rect.w)
@@ -221,8 +213,8 @@ class Table(container.Container):
             if r != 0 and (c%b)<r: v += 1
             return v
 
-        for row in range(self.getRows()):
-            for cell in range(self.getColumns()):
+        for row in range(self.get_rows()):
+            for cell in range(self.get_columns()):
                 if self._rows[row][cell] and self._rows[row][cell] is not True:
                     if self._rows[row][cell]["colspan"] > 1:
                         columns = list(range(cell, cell + self._rows[row][cell]["colspan"]))
@@ -260,9 +252,9 @@ class Table(container.Container):
                 rowsizes[n] += rowsizes[n] * amount
 
         #set the widget's position by calculating their row/column x/y offset
-        cellpositions = [[[sum(columnsizes[0:cell]), sum(rowsizes[0:row])] for cell in range(self.getColumns())] for row in range(self.getRows())]
-        for row in range(self.getRows()):
-            for cell in range(self.getColumns()):
+        cellpositions = [[[sum(columnsizes[0:cell]), sum(rowsizes[0:row])] for cell in range(self.get_columns())] for row in range(self.get_rows())]
+        for row in range(self.get_rows()):
+            for cell in range(self.get_columns()):
                 if self._rows[row][cell] and self._rows[row][cell] is not True:
                     x, y = cellpositions[row][cell]
                     w = sum(columnsizes[cell:cell+self._rows[row][cell]["colspan"]])
