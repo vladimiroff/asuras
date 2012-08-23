@@ -72,16 +72,10 @@ class Vehicle(sprite.Sprite):
         modify = 1 + self.speed // 6
         if tangent < 0:
             self.rotation += modify
-            for point in self.points:
-                point.rotate(360 - modify)
-            for pivot_point in self.pivot_points:
-                pivot_point.rotate(360 - modify)
+            self.rotate_vehicle(360 - modify)
         elif tangent > 0:
             self.rotation -= modify
-            for point in self.points:
-                point.rotate(modify)
-            for pivot_point in self.pivot_points:
-                pivot_point.rotate(modify)
+            self.rotate_vehicle(modify)
         else:
             self.speed = - self.speed
 
