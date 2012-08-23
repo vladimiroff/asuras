@@ -123,33 +123,27 @@ class Vehicle(sprite.Sprite):
         elif self.rotation < 0:
             self.rotation += 360
 
+    def rotate_vehicle(self, degrees):
+        for point in self.points:
+            point.rotate(degrees)
+        for pivot_point in self.pivot_points:
+            pivot_point.rotate(degrees)
+
     def movement_controls(self, pressed, tilemap):
         if pressed[A]:
             self.rotation += 2
-            for point in self.points:
-                point.rotate(358)
-            for pivot_point in self.pivot_points:
-                pivot_point.rotate(358)
+            self.rotate_vehicle(358)
             collision_result = collision_check(self, tilemap, Vec2d(0,0))
             if collision_result.collisions:
                 self.rotation -= 2
-                for point in self.points:
-                    point.rotate(2)
-                for pivot_point in self.pivot_points:
-                    pivot_point.rotate(2)    
+                self.rotate_vehicle(2)   
         if pressed[D]:
             self.rotation -= 2
-            for point in self.points:
-                point.rotate(2)
-            for pivot_point in self.pivot_points:
-                pivot_point.rotate(2)
+            self.rotate_vehicle(2)
             collision_result = collision_check(self, tilemap, Vec2d(0,0))
             if collision_result.collisions:
                 self.rotation += 2
-                for point in self.points:
-                    point.rotate(358)
-                for pivot_point in self.pivot_points:
-                    pivot_point.rotate(358)
+                self.rotate_vehicle(358)
 
         if pressed[W] and abs(self.speed) < self.top_speed:
             self.speed += self.acceleration
