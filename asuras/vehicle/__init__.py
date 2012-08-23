@@ -3,7 +3,7 @@ from pygame import sprite, transform
 
 from vehicle.components.weapon import Weapon
 from libs.vec2d import Vec2d
-from libs.collisions import Detection, Obstacle
+from libs.collisions import Detection, Obstacle, collision_check
 from libs.tmx import cells
 from entities.bullet import Bullet
 
@@ -58,42 +58,6 @@ class Vehicle(sprite.Sprite):
         turret = Weapon((320, 240))
         self.attach(turret, 0)
 
-    def collision_check(self, tilemap, direction):
-        tile_container = (self.rect.center[0] // tilemap.layers[0].tile_width, 
-                          self.rect.center[1] // tilemap.layers[0].tile_height)
-        obstacles = []
-        for line in range(3):
-            for col in range(3):
-                curent_tile = tilemap.layers[1][(tile_container[0] + line - 1,
-                                                 tile_container[1] + col - 1)]
-                if type(curent_tile) is cells.Cell:
-                    if curent_tile.tile.properties['collidable']:
-                        new_collidable_object = Obstacle()
-                        new_collidable_object.pos = Vec2d(curent_tile.topleft)
-                        new_collidable_object.points = []
-                        if not curent_tile.tile.properties['points']:
-                            new_collidable_object.points.append(Vec2d(0, 0))
-                            new_collidable_object.points.append(Vec2d(101, 0))
-                            new_collidable_object.points.append(Vec2d(101, 101))
-                            new_collidable_object.points.append(Vec2d(0, 101))
-                        else:
-                            object_points = curent_tile.tile.properties['points'].split(';')
-                            for point in object_points:
-                                point_coords = point.split(',')
-                                new_collidable_object.points.append(Vec2d(int(point_coords[0]),
-                                                                          int(point_coords[1])))
-                        obstacles.append(new_collidable_object)
-
-        player = Obstacle()
-        player.pos = self.position + direction
-        player.points = self.points
-        vehicle_colider = Detection(player, obstacles)
-        vehicle_colider.line_by_line_check()
-
-        self.near_obstacles = obstacles
-
-        return vehicle_colider
-
     def collision_reactor(self, line):
         if line[1][0] == line[0][0]:
             tangent = math.tan(math.radians(self.rotation))
@@ -130,8 +94,8 @@ class Vehicle(sprite.Sprite):
         direction = Vec2d(math.sin(math.radians(self.rotation)), 
                             math.cos(math.radians(self.rotation)))
         direction.length = self.speed
-        predicted_collision_result = self.collision_check(tilemap, direction)
-        collision_result = self.collision_check(tilemap, Vec2d(0,0))
+        predicted_collision_result = collision_check(self, tilemap, direction)
+        collision_result = collision_check(self, tilemap, Vec2d(0,0))
         self.result = collision_result
         self.movement_controls(pressed, tilemap)
         if predicted_collision_result.collisions and not self.speed == 0:
@@ -166,7 +130,7 @@ class Vehicle(sprite.Sprite):
                 point.rotate(358)
             for pivot_point in self.pivot_points:
                 pivot_point.rotate(358)
-            collision_result = self.collision_check(tilemap, Vec2d(0,0))
+            collision_result = collision_check(self, tilemap, Vec2d(0,0))
             if collision_result.collisions:
                 self.rotation -= 2
                 for point in self.points:
@@ -179,7 +143,7 @@ class Vehicle(sprite.Sprite):
                 point.rotate(2)
             for pivot_point in self.pivot_points:
                 pivot_point.rotate(2)
-            collision_result = self.collision_check(tilemap, Vec2d(0,0))
+            collision_result = collision_check(self, tilemap, Vec2d(0,0))
             if collision_result.collisions:
                 self.rotation += 2
                 for point in self.points:

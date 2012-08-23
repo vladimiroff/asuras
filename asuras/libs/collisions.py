@@ -1,4 +1,5 @@
 from libs.vec2d import Vec2d
+from libs.tmx import cells
 
 class Obstacle:
     def __init__(self):
@@ -6,6 +7,41 @@ class Obstacle:
         self.points = []
         self.pivot_points = []
 
+def collision_check(entity, tilemap, direction):
+        tile_container = (entity.rect.center[0] // tilemap.layers[0].tile_width, 
+                          entity.rect.center[1] // tilemap.layers[0].tile_height)
+        obstacles = []
+        for line in range(3):
+            for col in range(3):
+                curent_tile = tilemap.layers[1][(tile_container[0] + line - 1,
+                                                 tile_container[1] + col - 1)]
+                if type(curent_tile) is cells.Cell:
+                    if curent_tile.tile.properties['collidable']:
+                        new_collidable_object = Obstacle()
+                        new_collidable_object.pos = Vec2d(curent_tile.topleft)
+                        new_collidable_object.points = []
+                        if not curent_tile.tile.properties['points']:
+                            new_collidable_object.points.append(Vec2d(0, 0))
+                            new_collidable_object.points.append(Vec2d(101, 0))
+                            new_collidable_object.points.append(Vec2d(101, 101))
+                            new_collidable_object.points.append(Vec2d(0, 101))
+                        else:
+                            object_points = curent_tile.tile.properties['points'].split(';')
+                            for point in object_points:
+                                point_coords = point.split(',')
+                                new_collidable_object.points.append(Vec2d(int(point_coords[0]),
+                                                                          int(point_coords[1])))
+                        obstacles.append(new_collidable_object)
+
+        player = Obstacle()
+        player.pos = entity.position + direction
+        player.points = entity.points
+        vehicle_colider = Detection(player, obstacles)
+        vehicle_colider.line_by_line_check()
+
+        entity.near_obstacles = obstacles
+
+        return vehicle_colider
 
 class Detection:
     '''
