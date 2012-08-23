@@ -68,14 +68,20 @@ class Vehicle(sprite.Sprite):
                                                  tile_container[1] + col - 1)]
                 if type(curent_tile) is cells.Cell:
                     if curent_tile.tile.properties['collidable']:
-                        object_points = curent_tile.tile.properties['points'].split(';')
                         new_collidable_object = Obstacle()
                         new_collidable_object.pos = Vec2d(curent_tile.topleft)
                         new_collidable_object.points = []
-                        for point in object_points:
-                            point_coords = point.split(',')
-                            new_collidable_object.points.append(Vec2d(int(point_coords[0]),
-                                                                      int(point_coords[1])))
+                        if not curent_tile.tile.properties['points']:
+                            new_collidable_object.points.append(Vec2d(0, 0))
+                            new_collidable_object.points.append(Vec2d(101, 0))
+                            new_collidable_object.points.append(Vec2d(101, 101))
+                            new_collidable_object.points.append(Vec2d(0, 101))
+                        else:
+                            object_points = curent_tile.tile.properties['points'].split(';')
+                            for point in object_points:
+                                point_coords = point.split(',')
+                                new_collidable_object.points.append(Vec2d(int(point_coords[0]),
+                                                                          int(point_coords[1])))
                         obstacles.append(new_collidable_object)
 
         player = Obstacle()
@@ -127,7 +133,7 @@ class Vehicle(sprite.Sprite):
         predicted_collision_result = self.collision_check(tilemap, direction)
         collision_result = self.collision_check(tilemap, Vec2d(0,0))
         self.result = collision_result
-        self.movement_controls(pressed)
+        self.movement_controls(pressed, tilemap)
         if predicted_collision_result.collisions and not self.speed == 0:
             self.collision_points = collision_result.collisions
             if collision_result.collisions:
@@ -153,19 +159,33 @@ class Vehicle(sprite.Sprite):
         elif self.rotation < 0:
             self.rotation += 360
 
-    def movement_controls(self, pressed):
+    def movement_controls(self, pressed, tilemap):
         if pressed[A]:
             self.rotation += 2
             for point in self.points:
                 point.rotate(358)
             for pivot_point in self.pivot_points:
                 pivot_point.rotate(358)
+            collision_result = self.collision_check(tilemap, Vec2d(0,0))
+            if collision_result.collisions:
+                self.rotation -= 2
+                for point in self.points:
+                    point.rotate(2)
+                for pivot_point in self.pivot_points:
+                    pivot_point.rotate(2)    
         if pressed[D]:
             self.rotation -= 2
             for point in self.points:
                 point.rotate(2)
             for pivot_point in self.pivot_points:
                 pivot_point.rotate(2)
+            collision_result = self.collision_check(tilemap, Vec2d(0,0))
+            if collision_result.collisions:
+                self.rotation += 2
+                for point in self.points:
+                    point.rotate(358)
+                for pivot_point in self.pivot_points:
+                    pivot_point.rotate(358)
 
         if pressed[W] and abs(self.speed) < self.top_speed:
             self.speed += self.acceleration
