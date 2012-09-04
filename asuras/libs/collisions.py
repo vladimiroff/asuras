@@ -2,12 +2,21 @@ from libs.vec2d import Vec2d
 from libs.tmx import cells
 
 class Obstacle:
+    '''
+    Data container created only for the collision detection. It saves the needed data for the collision computations. 
+    '''
     def __init__(self):
         self.pos = 0
         self.points = []
         self.pivot_points = []
 
 def collision_check(entity, tilemap, direction):
+    '''
+    Checks 3 by 3 tiles around the entity (vehicle, bullets and so on), including the one that the entity stands on.
+    Then the second layer of the map is checked for collidable objects on the tiles. Those objects' positions
+    and points are stored in the instances of the Obstacle class.
+    Then the position and collidable points of the entity are copied in another instance of the Obstacle class.
+    '''
         tile_container = (entity.rect.center[0] // tilemap.layers[0].tile_width, 
                           entity.rect.center[1] // tilemap.layers[0].tile_height)
         obstacles = []
@@ -50,12 +59,18 @@ class Detection:
     '''
 
     def __init__(self, entity, objects):
+        '''
+        Constructor for the Detection calss which takes the entity and the surrounding objects which are detected by the collision_check function.
+        '''
         self.collisions = []
         self.collision_lines = []
         self.entity = entity
         self.objects = objects
 
     def line_by_line_check(self):
+        '''
+        For each pair of points of the entity, collision is checked with each line of each obstacle.
+        '''
         self.collisions[:] = []
         self.collision_lines[:] = []
         previos_point = self.entity.points[-1]
@@ -71,12 +86,23 @@ class Detection:
                 previos_point = point
 
     def _line_check(self, line, crosspoint):
+        '''
+        Check if the crosspoint is on both segments of the collidable lines.
+        '''
         if line[0][0] < line[1][0]:
             return line[0][0] < crosspoint and crosspoint < line[1][0]
         else:
             return line[0][0] > crosspoint and crosspoint > line[1][0]
 
     def line_collider(self, first_line, second_line):
+        '''
+        4 cases for collision:
+            1.  If the lines are parallel to each other then return false for no collision.
+            2.  Else If the first line is horisontal (knowing that the second one is not horisontal): check for collisions.
+            3.  Else If  the second line is horisontal (knowing that the first one is not horisontal): check for collisions.
+            4.  The last case where neither of the lines is horisontal or vertical. 
+                Having the attributes of both line equations a crosspoint is checked using the _line_check function.
+        '''
         if first_line[1][0] == first_line[0][0] and second_line[1][0] == second_line[0][0]:
             return False
         elif first_line[1][0] == first_line[0][0]:
@@ -106,6 +132,9 @@ class Detection:
             return False
 
     def cartesian_equation(self, first_line, second_line):
+        '''
+        Check the crosspoint for the simple case of a horisontal first collidable line.
+        '''
         a_second = (second_line[1][1]-second_line[0][1])/(second_line[1][0]-second_line[0][0])
         b_second = second_line[0][1] - a_second * second_line[0][0]
 
