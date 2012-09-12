@@ -1,9 +1,13 @@
 #!/usr/bin/env python
-import ipdb
 import pygame
 
 from player import Player
 from libs import tmx
+
+try:
+    import ipdb as pdb
+except ImportError:
+    import pdb
 
 class Game:
     running = True
@@ -37,7 +41,7 @@ class Game:
                 self.running = False
             elif event.type == pygame.KEYDOWN or event.type == pygame.KEYUP:
                 if event.key == pygame.K_BACKQUOTE:
-                    ipdb.set_trace()
+                    pdb.set_trace()
                 self.set_pressed_arrows(event.key)
             elif event.type == pygame.MOUSEBUTTONUP:
                 self.mouse_up(event.button, event.pos)
