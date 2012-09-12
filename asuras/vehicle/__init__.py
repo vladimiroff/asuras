@@ -2,6 +2,8 @@ import math
 from pygame import sprite, transform
 
 from vehicle.components.weapon import Weapon
+from vehicle.components.engine import Engine
+from vehicle.components.generator import Generator
 from libs.vec2d import Vec2d
 from libs.collisions import Detection, Obstacle, collision_check
 from libs.tmx import cells
@@ -55,8 +57,12 @@ class Vehicle(sprite.Sprite):
         self.near_obstacles = []
         self.collision_points = []
         self.result = 0
-        turret = Weapon((320, 240))
+        turret = Weapon(self.position)
         self.attach(turret, 0)
+        engine = Engine(self)
+        self.attach(engine, 0)
+        generator = Generator()
+        self.attach(generator, 0)
 
     def collision_reactor(self, line):
         if line[1][0] == line[0][0]:
