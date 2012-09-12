@@ -5,9 +5,9 @@ from . import VehicleComponent
 from libs.vec2d import Vec2d
 
 class Weapon(VehicleComponent):
-    power_consumption = 0
+    power_consumption = 1
     rotation = 0
-    weight = 0
+    weight = 10
     projectile = None
     damage = 0
     range = 0
@@ -36,3 +36,5 @@ class Weapon(VehicleComponent):
         self.image = transform.rotate(self.base_image, self.rotation)
         self.rect = self.image.get_rect()
         self.rect.center = position  + vehicle.pivot_points[0]
+
+        vehicle.power -= self.power_consumption
