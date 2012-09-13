@@ -88,7 +88,8 @@ class Theme(object):
         fname = os.path.join(dname, "style.ini")
         if os.path.isfile(fname):
             self.baseThemePath = dname
-            txt = open(fname).read()
+            with open(fname) as f:
+                txt = f.read()
             self.configure(txt, path=dname)
             return
 
@@ -211,7 +212,7 @@ class Theme(object):
         if (not path):
             path = self.baseThemePath
         cfg = ConfigParser()
-        cfg.readfp(io.StringIO(txt))
+        cfg.read_file(io.StringIO(txt))
         for section in cfg.sections():
             cls = section
             pcls = ''
