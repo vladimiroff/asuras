@@ -6,15 +6,9 @@ class LightVehicle(Vehicle):
         'inventory': 9,
         'dimenstions': (40, 50),
         'slots': {
-            'motions': {
-                'front': 2,
-                'back': 2,
-            },
-            'engines': {
-                'front': 2,
-                'back': 2,
-            },
-            'shields': ['front', 'back', 'left', 'right'],
+            'motions': 4,
+            'engines': 4,
+            'shields': 4,
             'addons': 5,
             'generators': 1,
         },
