@@ -26,7 +26,7 @@ class Vehicle(sprite.Sprite):
         'power_consumption': 0,
         'slots': {
             'motions': 1,
-            'engines': 1,
+         #   'engines': 1,
             'shields': 4,
             'addons': 8,
             'generators': 1,
