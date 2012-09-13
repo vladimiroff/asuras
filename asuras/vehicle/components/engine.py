@@ -17,4 +17,4 @@ class Engine(VehicleComponent):
         #self.rect.center = position
 
     def update(self, position, vehicle, *args):
-        vehicle.power -= power_consumption
+        vehicle.power -= self.power_consumption
