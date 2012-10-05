@@ -11,5 +11,6 @@ class TinyVehicle(Vehicle):
             'shields': 4,
             'addons': 2,
             'generators': 1,
+            'weapons': 1,
         },
     }

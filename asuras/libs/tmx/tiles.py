@@ -1,8 +1,38 @@
 import os
 import sys
+import glob
 from xml.etree import ElementTree
 
 import pygame
+
+class Animation:
+    ''' Visualisation of entity. '''
+    def __init__(self):
+        self.frames = []
+        self.curframe = 0
+        self.maxframe = 0
+        self.timer = 0
+    
+    def setup(self, folder):
+        ''' Goes in the given folder and takes all the framse in order to visualise them later. '''
+        tempimages = glob.glob("resources/animations/" + folder + "/frame*.png")
+        tempimages.sort()
+        for i in range(len(tempimages)):        
+            self.frames.append(pygame.image.load(tempimages[i]))
+        self.maxframe = len(self.frames) - 1
+ 
+    def draw(self, screen, pos):
+        ''' Draw curent frame and move to the next one. '''
+        screen.blit(self.frames[self.curframe], pos)
+        
+        if self.curframe == self.maxframe:
+            self.curframe = 0
+        else:
+            if self.timer == 4:
+                self.curframe += 1
+                self.timer = 0
+            else:
+                self.timer += 1
 
 class Tile:
     def __init__(self, gid, surface, tileset):
@@ -36,6 +66,10 @@ class Tile:
             if value.isdigit():
                 value = int(value)
             self.properties[name] = value
+            if name == 'animated':
+                self.animation = Animation()
+                print(value)
+                self.animation.setup(value)
 
     def __repr__(self):
         return '<Tile %d>' % self.gid

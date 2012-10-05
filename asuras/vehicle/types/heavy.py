@@ -11,5 +11,6 @@ class HeavyVehicle(Vehicle):
             'shields': 4,
             'addons': 12,
             'generators': 2,
+            'weapons': 1,
         },
     }

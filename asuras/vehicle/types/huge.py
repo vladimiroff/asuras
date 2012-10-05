@@ -11,5 +11,6 @@ class HugeVehicle(Vehicle):
             'shields': 6,
             'addons': 12,
             'generators': 2,
+            'weapons': 1,
         },
     }

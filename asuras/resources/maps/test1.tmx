@@ -310,6 +310,7 @@
   </tile>
   <tile id="60">
    <properties>
+    <property name="animated" value="cristal"/>
     <property name="collidable" value="1"/>
     <property name="points" value=""/>
    </properties>

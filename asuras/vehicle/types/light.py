@@ -11,5 +11,6 @@ class LightVehicle(Vehicle):
             'shields': 4,
             'addons': 5,
             'generators': 1,
+            'weapons': 1,
         },
     }
