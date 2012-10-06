@@ -98,6 +98,16 @@
     <property name="points" value=""/>
    </properties>
   </tile>
+  <tile id="18">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
   <tile id="20">
    <properties>
     <property name="collidable" value="1"/>
@@ -144,6 +154,11 @@
    <properties>
     <property name="collidable" value="1"/>
     <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="collidable" value="1"/>
    </properties>
   </tile>
   <tile id="29">
@@ -200,6 +215,16 @@
     <property name="points" value=""/>
    </properties>
   </tile>
+  <tile id="38">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
   <tile id="40">
    <properties>
     <property name="collidable" value="1"/>
@@ -246,6 +271,16 @@
    <properties>
     <property name="collidable" value="1"/>
     <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="collidable" value="1"/>
    </properties>
   </tile>
   <tile id="50">
@@ -321,6 +356,13 @@
     <property name="points" value=""/>
    </properties>
   </tile>
+  <tile id="62">
+   <properties>
+    <property name="animated" value="radar"/>
+    <property name="collidable" value="1"/>
+    <property name="points" value="9,13;40,13;40,44;9,44"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
@@ -329,7 +371,7 @@
  </layer>
  <layer name="Tile Layer 2" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2IlKAmEYhlHbg/agPdoL2oP2rO7/snoNBJMRp1Ka9Bx4EEHGX7+ZEf9aDQB+p/7XC+CLsvN4Lei7RtJoGkvjaSJNpqk0/YPjDaIy8+j0mnrLY7fjNGYxk2bTXJpPC2kxLaXlEusYBju14nO/6DpoP7+L5vFe8B7NWayk1bSW1tNG2kxbabtXH2iItJ/fZa6P5iwadtNe2k8H6TAdpeN00pcVD5du82idRcNpOkvn6SJdpqt0nW76t8x/q9t9q9N9rNM8Ztqe36a7dJ8e0mN6Ss/ppVcfgs9ZFP1uFHnr50IGzHf/i9TbHukt86iW1u+1233lvWYe/Vbmv0hr5lEt5gH8Nfuw1WIftlrsw1aLfdhqsQ9bLfZhAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+pw9LGRy9
+   eJzt2AtP01AAhuGKCCagAoqCV+5BARW5qVP8///Kr4lLStNlXdxCoc+TvGmWddvZTtdupygA4P88r93+cyujYGjQYp8X6VdDh5X7D5sfesODNJcepvn0KC2kxfR4olHfX23mY9Q+g8p23POUc7GUltOT9DQ9SytpNa21GEcfvC+aj/1q3/7tWz++m+bjuuE1hnOxnl6mV2kjbabX6U16O8X31Bf147vN92M4F6UPaSttp520m/bSfjqYyYj7Zdx8VOei9DF9SkfpOJ2kz+lL+jq7Yd5J74rx561R57FyLk4bnnOpdvssnaeLdJmu0vf0I/2c3lvpvXI+mq4bTX7PciD3TP2/SNv92/xGY3KTfq6D2pbpqn6u484r14X5mLU2/0VGXc+5fa4f3XJa20IfWIftFuuw3WIdtlusw3aLddhusQ4LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHA3/QXr5x2k
   </data>
  </layer>
 </map>

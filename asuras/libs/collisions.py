@@ -29,7 +29,7 @@ def collision_check(entity, tilemap, direction):
                     new_collidable_object = Obstacle()
                     new_collidable_object.pos = Vec2d(curent_tile.topleft)
                     new_collidable_object.points = []
-                    if not curent_tile.tile.properties['points']:
+                    if 'points' not in curent_tile.tile.properties or not curent_tile.tile.properties['points']:
                         new_collidable_object.points.append(Vec2d(0, 0))
                         new_collidable_object.points.append(Vec2d(101, 0))
                         new_collidable_object.points.append(Vec2d(101, 101))
