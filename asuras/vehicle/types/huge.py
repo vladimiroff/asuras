@@ -6,25 +6,11 @@ class HugeVehicle(Vehicle):
         'inventory': 80,
         'dimenstions': (60, 120),
         'slots': {
-            'motions': {
-                'front': 2,
-                'middle': 2,
-                'back': 4,
-            },
-            'engines': {
-                'front': 2,
-                'middle': 2,
-                'back': 4,
-            },
-            'shields': [
-                'front',
-                'back',
-                'front-left',
-                'front-right',
-                'back-left',
-                'back-right'
-            ],
+            'motions': 8,
+            'engines': 8,
+            'shields': 6,
             'addons': 12,
             'generators': 2,
+            'weapons': 1,
         },
     }

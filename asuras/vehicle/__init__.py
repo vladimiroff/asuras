@@ -1,9 +1,13 @@
 import math
 from pygame import sprite, transform
 
+from vehicle.components.weapon import Weapon
+from vehicle.components.engine import Engine
+from vehicle.components.generator import Generator
 from libs.vec2d import Vec2d
-from libs.collisions import Detection
-from libs.tmx.cells import Cell
+from libs.collisions import Detection, Obstacle, collision_check
+from libs.tmx import cells
+from entities.bullet import Bullet
 
 
 # Keys in pressed_arrows
@@ -13,10 +17,6 @@ S = 2
 D = 3
 
 
-class Obstacle:
-    def __init__(self):
-        self.pos = 0
-        self.points = []
 
 class Vehicle(sprite.Sprite):
     DEFAULTS = {
@@ -30,6 +30,7 @@ class Vehicle(sprite.Sprite):
             'shields': 4,
             'addons': 8,
             'generators': 1,
+            'weapons': 1,
         },
     }
 
@@ -39,6 +40,7 @@ class Vehicle(sprite.Sprite):
         'shields': {},
         'addons': {},
         'generators': {},
+        'weapons': {},
     }
 
     top_speed = 0
@@ -48,59 +50,39 @@ class Vehicle(sprite.Sprite):
     rotation = 0
     power = 0
 
-    def __init__(self, location, *groups):
-        super(__class__, self).__init__(*groups)
+    def __init__(self, location, items_layer, *groups):
+        super().__init__(*groups)
+        self.sprite_groups = groups
         self.position = Vec2d(location[0], location[1])
-
+        self.items_layer = items_layer
         self.near_obstacles = []
         self.collision_points = []
         self.result = 0
-
-    def collision_check(self, tilemap, direction):
-        tile_container = (self.rect.center[0] // tilemap.layers[0].tile_width, self.rect.center[1] // tilemap.layers[0].tile_height)
-        obstacles = []
-        for line in range(3):
-            for col in range(3):
-                curent_tile = tilemap.layers[1][(tile_container[0] + line - 1, tile_container[1] + col - 1)]
-                if type(curent_tile) is Cell:
-                    if curent_tile.tile.properties['collidable']:
-                        object_points = curent_tile.tile.properties['points'].split(';')
-                        new_collidable_object = Obstacle()
-                        new_collidable_object.pos = Vec2d(curent_tile.topleft)
-                        new_collidable_object.points = []
-                        for point in object_points:
-                            point_coords = point.split(',')
-                            new_collidable_object.points.append(Vec2d(int(point_coords[0]), int(point_coords[1])))
-                        obstacles.append(new_collidable_object)
-
-        player = Obstacle()
-        player.pos = self.position + direction
-        player.points = self.points
-        vehicle_colider = Detection(player, obstacles)
-        vehicle_colider.line_by_line_check()
-
-        self.near_obstacles = obstacles
-
-        return vehicle_colider
+        turret = Weapon(self.position)
+        self.attach(turret, 0)
+        engine = Engine(self)
+        self.attach(engine, 0)
+        generator = Generator()
+        self.attach(generator, 0)
 
     def collision_reactor(self, line):
         if line[1][0] == line[0][0]:
             tangent = math.tan(math.radians(self.rotation))
         else:
             a_prime = (line[1][1] - line[0][1]) / (line[1][0] - line[0][0])
-            b_prime = line[0][1] - a_prime * line[0][0]
+            b_prime = line[0][1] - a_prime * line[0][0] # Not used for now
             a_second = math.tan(math.radians(self.rotation))
-            tangent = (a_prime - a_second) / (1 + a_prime * a_second)
+            if line[1][1] == line[0][1]:
+                tangent = (a_prime - a_second) / (1 + a_prime * a_second)
+            else:
+                tangent = - (a_prime - a_second) / (1 + a_prime * a_second)
         modify = 1 + self.speed // 6
         if tangent < 0:
             self.rotation += modify
-            for point in self.points:
-                point.rotate(360 - modify)
+            self.rotate_vehicle(360 - modify)
         elif tangent > 0:
             self.rotation -= modify
-            for point in self.points:
-                point.rotate(modify)
-
+            self.rotate_vehicle(modify)
         else:
             self.speed = - self.speed
 
@@ -110,12 +92,13 @@ class Vehicle(sprite.Sprite):
 
 
     def update(self, pressed, time_delta, tilemap):
-        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
+        direction = Vec2d(math.sin(math.radians(self.rotation)), 
+                            math.cos(math.radians(self.rotation)))
         direction.length = self.speed
-        predicted_collision_result = self.collision_check(tilemap, direction)
-        collision_result = self.collision_check(tilemap, Vec2d(0,0))
+        predicted_collision_result = collision_check(self, tilemap, direction)
+        collision_result = collision_check(self, tilemap, Vec2d(0,0))
         self.result = collision_result
-        self.movement_controls(pressed)
+        self.movement_controls(pressed, tilemap)
         if predicted_collision_result.collisions and not self.speed == 0:
             self.collision_points = collision_result.collisions
             if collision_result.collisions:
@@ -125,14 +108,15 @@ class Vehicle(sprite.Sprite):
             self.update_position(time_delta)
         else:
             self.update_position(time_delta)
+        self.items_layer.update(Vec2d(self.rect.center[0] - tilemap.viewport[0],
+                                     self.rect.center[1] - tilemap.viewport[1]), self)
 
     def update_position(self, time_delta):
-        direction = Vec2d(math.sin(math.radians(self.rotation)), math.cos(math.radians(self.rotation)))
+        direction = Vec2d(math.sin(math.radians(self.rotation)),
+                             math.cos(math.radians(self.rotation)))
         direction.length = self.speed * time_delta
 
         self.position += direction
-        self.rect.x = self.position[0]
-        self.rect.y = self.position[1]
         self.rect.center = self.position
 
         if self.rotation > 360:
@@ -140,15 +124,27 @@ class Vehicle(sprite.Sprite):
         elif self.rotation < 0:
             self.rotation += 360
 
-    def movement_controls(self, pressed):
+    def rotate_vehicle(self, degrees):
+        for point in self.points:
+            point.rotate(degrees)
+        for pivot_point in self.pivot_points:
+            pivot_point.rotate(degrees)
+
+    def movement_controls(self, pressed, tilemap):
         if pressed[A]:
             self.rotation += 2
-            for point in self.points:
-                point.rotate(358)
+            self.rotate_vehicle(358)
+            collision_result = collision_check(self, tilemap, Vec2d(0,0))
+            if collision_result.collisions:
+                self.rotation -= 2
+                self.rotate_vehicle(2)   
         if pressed[D]:
             self.rotation -= 2
-            for point in self.points:
-                point.rotate(2)
+            self.rotate_vehicle(2)
+            collision_result = collision_check(self, tilemap, Vec2d(0,0))
+            if collision_result.collisions:
+                self.rotation += 2
+                self.rotate_vehicle(358)
 
         if pressed[W] and abs(self.speed) < self.top_speed:
             self.speed += self.acceleration
@@ -168,7 +164,7 @@ class Vehicle(sprite.Sprite):
         parameters = {
             'weight': self.DEFAULTS['weight'],
             'power_generation': 0,
-            'power_consumption': self.DEFAULTS['power_consumption']
+            'power_consumption': self.DEFAULTS.get('power_consumption', 0)
         }
 
         for group in self._slots.values():
@@ -179,12 +175,18 @@ class Vehicle(sprite.Sprite):
         for parameter in parameters:
             setattr(self, parameter, parameters[parameter])
 
+    def fire(self, projectiles):
+        projectile = Bullet(self.position + self.pivot_points[0], 
+                            self._slots['weapons'][0].direction, 0)
+        projectiles.add(projectile)
+
     def attach(self, component, slot, overwrite=False):
         if component.group not in self._slots or slot >= self.DEFAULTS['slots'][component.group]:
             return False
         if not self._slots[component.group].get(slot, None) or overwrite:
             self._slots[component.group][slot] = component
         self.recalculate()
+        self.items_layer.add(component)
         return self._slots[component.group][slot]
 
     def detach(self, component, slot):

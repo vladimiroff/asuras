@@ -6,18 +6,11 @@ class HeavyVehicle(Vehicle):
         'inventory': 30,
         'dimenstions': (60, 80),
         'slots': {
-            'motions': {
-                'front': 2,
-                'middle': 2,
-                'back': 2,
-            },
-            'engines': {
-                'front': 2,
-                'middle': 2,
-                'back': 2,
-            },
-            'shields': ['front', 'back', 'left', 'right'],
+            'motions': 6,
+            'engines': 6,
+            'shields': 4,
             'addons': 12,
             'generators': 2,
+            'weapons': 1,
         },
     }

@@ -120,7 +120,10 @@ class Layer:
                 if (i, j) not in self.cells:
                     continue
                 cell = self.cells[i, j]
-                surface.blit(cell.tile.surface, (cell.px-ox, cell.py-oy))
+                if not 'animated' in cell.tile.properties:
+                    surface.blit(cell.tile.surface, (cell.px-ox, cell.py-oy))
+                else:
+                    cell.tile.animation.draw(surface,(cell.px-ox, cell.py-oy))
 
     def find(self, *properties):
         '''Find all cells with the given properties set.

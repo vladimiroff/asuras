@@ -3,12 +3,15 @@ import unittest
 from vehicle import Vehicle
 from vehicle.types.normal import NormalVehicle
 from vehicle.components import VehicleComponent
+from libs import tmx
 
 class BaseVehicleTests(unittest.TestCase):
 
     def setUp(self):
-        self.v = Vehicle((10, 10))
-        self.n = NormalVehicle((10, 10))
+        self.sprites = tmx.layers.SpriteLayer()
+        self.items = tmx.layers.SpriteLayer()
+        self.v = Vehicle((10, 10), self.items, self.sprites)
+        self.n = NormalVehicle((10, 10), self.items, self.sprites)
         self.component = VehicleComponent('motions')
 
     def test_defaults(self):

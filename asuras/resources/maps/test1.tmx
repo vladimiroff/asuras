@@ -2,10 +2,333 @@
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="101" tileheight="101">
  <tileset firstgid="1" name="tilemap" tilewidth="101" tileheight="101">
   <image source="tilemap.png" width="1010" height="2020"/>
+  <tile id="0">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value="57,101;101,101;101,57"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value="0,101;0,56;27,29;50,30;51,68;101,68;101,101"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="10">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value="56,0;28,26;29,47;49,47;49,101;101,101;101,0"/>
+   </properties>
+  </tile>
+  <tile id="11">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="13">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="18">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="19">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="22">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="23">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
   <tile id="29">
    <properties>
     <property name="collidable" value="1"/>
     <property name="points" value="30,0;30,13;15,13;15,85;85,85;85,15;71,15;71,0"/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="31">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="32">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="34">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="35">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="36">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="37">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="38">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="39">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="40">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="41">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="45">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="46">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="47">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="collidable" value="1"/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="52">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="55">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="56">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="57">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
    </properties>
   </tile>
   <tile id="58">
@@ -20,6 +343,26 @@
     <property name="points" value="0,30;101,30;101,71;0,71"/>
    </properties>
   </tile>
+  <tile id="60">
+   <properties>
+    <property name="animated" value="cristal"/>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="61">
+   <properties>
+    <property name="collidable" value="1"/>
+    <property name="points" value=""/>
+   </properties>
+  </tile>
+  <tile id="62">
+   <properties>
+    <property name="animated" value="radar"/>
+    <property name="collidable" value="1"/>
+    <property name="points" value="9,13;40,13;40,44;9,44"/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="Tile Layer 1" width="100" height="100">
   <data encoding="base64" compression="zlib">
@@ -28,7 +371,7 @@
  </layer>
  <layer name="Tile Layer 2" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1tdKxGAUhdHYBfuAjg27wthGsJf3fy73jXfxN1GCYtaC7y7lwElIqgqADxNpMk2l6TSTZtNcmv/Fuf66146uu5AW01JaTitpNa2lQUf3/A+a7uOtppL1tJGGaTNtpe20k3a/NWk/NNnHZ8eUzt1PB+kwHaXjdJJO01mL+fpmr6p/9pu8B6V9jNJ5ukiX6Spdp3G6+fHU1Cnt4zbdpfv0kB7TU3pOL92P1ktd/QvwtbbfcwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACgmXeL1Qu3
+   eJzt2AtP01AAhuGKCCagAoqCV+5BARW5qVP8///Kr4lLStNlXdxCoc+TvGmWddvZTtdupygA4P88r93+cyujYGjQYp8X6VdDh5X7D5sfesODNJcepvn0KC2kxfR4olHfX23mY9Q+g8p23POUc7GUltOT9DQ9SytpNa21GEcfvC+aj/1q3/7tWz++m+bjuuE1hnOxnl6mV2kjbabX6U16O8X31Bf147vN92M4F6UPaSttp520m/bSfjqYyYj7Zdx8VOei9DF9SkfpOJ2kz+lL+jq7Yd5J74rx561R57FyLk4bnnOpdvssnaeLdJmu0vf0I/2c3lvpvXI+mq4bTX7PciD3TP2/SNv92/xGY3KTfq6D2pbpqn6u484r14X5mLU2/0VGXc+5fa4f3XJa20IfWIftFuuw3WIdtlusw3aLddhusQ4LAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHA3/QXr5x2k
   </data>
  </layer>
 </map>
