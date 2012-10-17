@@ -41,6 +41,8 @@ class Tile:
         self.tile_width = tileset.tile_width
         self.tile_height = tileset.tile_height
         self.properties = {}
+        self.visible_surface = 0
+        self.surfaces = [surface]
 
     @classmethod
     def from_surface(cls, surface):
@@ -102,6 +104,10 @@ class Tileset:
         for c in tag.getchildren():
             if c.tag == "image":
                 tileset.add_image(os.path.join(base_path, c.attrib['source']))
+                damaged_images = glob.glob("resources/maps/DamageStates/state*.png")
+                damaged_images.sort()
+                for image in damaged_images:        
+                    tileset.add_sub_image(pygame.image.load(image).convert_alpha())
             elif c.tag == 'tile':
                 gid = tileset.firstgid + int(c.attrib['id'])
                 tileset.get_tile(gid).loadxml(c)
@@ -120,6 +126,25 @@ class Tileset:
                     self.tile_height )
                 self.tiles.append(Tile(id, image.subsurface(pos), self))
                 id += 1
+
+    def add_sub_image(self, input_image):
+        '''
+            Dobavq damaged images kato izpolzva loading image algoritama
+            no dobavq otdelnite damage images v strukturata na tilea
+        '''
+        image = input_image
+        if not image:
+            sys.exit("Error creating new Tileset: file %s not found" % file)
+        position = 0
+        for line in range(int(image.get_height()/self.tile_height)):
+            for column in range(int(image.get_width()/self.tile_width)):
+                pos = pygame.Rect(column*self.tile_width,
+                    line*self.tile_height,
+                    self.tile_width,
+                    self.tile_height )
+                self.tiles[position].surfaces.append(image.subsurface(pos))
+                position += 1
+
 
     def get_tile(self, gid):
         return self.tiles[gid - self.firstgid]
