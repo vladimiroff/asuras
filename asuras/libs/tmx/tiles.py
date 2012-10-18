@@ -70,8 +70,14 @@ class Tile:
             self.properties[name] = value
             if name == 'animated':
                 self.animation = Animation()
-                print(value)
                 self.animation.setup(value)
+            elif name == 'building':
+                '''
+                    building type nz dali shte se polzva no vse pak mislq che shte e nujno i go dobavqm
+                '''
+                self.building_type = value
+            elif name == 'health':
+                self.health = value
 
     def __repr__(self):
         return '<Tile %d>' % self.gid

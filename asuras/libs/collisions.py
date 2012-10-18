@@ -64,6 +64,7 @@ class Detection:
         '''
         self.collisions = []
         self.collision_lines = []
+        self.collision_tile = 0
         self.entity = entity
         self.objects = objects
 
@@ -76,6 +77,7 @@ class Detection:
         previos_point = self.entity.points[-1]
         for collidable in self.objects:
             collidable_previous_point = collidable.points[-1]
+            '''da se nameri nachin da se kaje v koi tile e collisiona za da poeme damage'''
             for point in self.entity.points:
                 for collidable_point in collidable.points:
                     self.line_collider([self.entity.pos + previos_point,
