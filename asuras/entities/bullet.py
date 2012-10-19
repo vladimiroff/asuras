@@ -42,7 +42,9 @@ class Bullet(sprite.Sprite):
         self.rect.center = self.position
         self.life -= 1
         predicted_collision_result = collision_check(self, tilemap, self.direction)
-        if predicted_collision_result.collisions:
+        bullet_collisions = predicted_collision_result
+        if bullet_collisions.collisions:
             self.rect.center = predicted_collision_result.collisions[0]
+            predicted_collision_result
             self.kill_in_the_next_frame = True
-            # send an event for take damage with predicted collision point to hit entity
+            bullet_collisions.collided_objects[0].cell.health -= 20

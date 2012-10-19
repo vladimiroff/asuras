@@ -20,6 +20,7 @@ class Cell:
         self.x, self.y = x, y
         self.px, self.py = px, py
         self.tile = tile
+        self.health = self.tile.health
         self.topleft = (px, py)
         self.left = px
         self.right = px + tile.tile_width
@@ -28,6 +29,7 @@ class Cell:
         self.center = (px + tile.tile_width//2, py + tile.tile_height//2)
         self._added_properties = {}
         self._deleted_properties = set()
+        self.visible_surface = 0
 
     def __repr__(self):
         return '<Cell %s,%s %d>' % (self.px, self.py, self.tile.gid)

@@ -43,6 +43,7 @@ class Tile:
         self.properties = {}
         self.visible_surface = 0
         self.surfaces = [surface]
+        self.health = -1
 
     @classmethod
     def from_surface(cls, surface):

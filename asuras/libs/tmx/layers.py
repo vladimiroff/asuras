@@ -121,7 +121,10 @@ class Layer:
                     continue
                 cell = self.cells[i, j]
                 if not 'animated' in cell.tile.properties:
-                    surface.blit(cell.tile.surfaces[cell.tile.visible_surface], (cell.px-ox, cell.py-oy))
+                    if cell.health < cell.tile.health:
+                        surface.blit(cell.tile.surfaces[1], (cell.px-ox, cell.py-oy))
+                    else:
+                        surface.blit(cell.tile.surfaces[cell.visible_surface], (cell.px-ox, cell.py-oy))
                 else:
                     cell.tile.animation.draw(surface,(cell.px-ox, cell.py-oy))
 

@@ -7,6 +7,7 @@ class Obstacle:
     '''
     def __init__(self):
         self.pos = 0
+        self.cell = 0
         self.points = []
         self.pivot_points = []
 
@@ -27,6 +28,7 @@ def collision_check(entity, tilemap, direction):
             if type(curent_tile) is cells.Cell:
                 if curent_tile.tile.properties['collidable']:
                     new_collidable_object = Obstacle()
+                    new_collidable_object.cell = curent_tile
                     new_collidable_object.pos = Vec2d(curent_tile.topleft)
                     new_collidable_object.points = []
                     if 'points' not in curent_tile.tile.properties or not curent_tile.tile.properties['points']:
@@ -67,6 +69,7 @@ class Detection:
         self.collision_tile = 0
         self.entity = entity
         self.objects = objects
+        self.collided_objects = []
 
     def line_by_line_check(self):
         '''
@@ -77,13 +80,12 @@ class Detection:
         previos_point = self.entity.points[-1]
         for collidable in self.objects:
             collidable_previous_point = collidable.points[-1]
-            '''da se nameri nachin da se kaje v koi tile e collisiona za da poeme damage'''
             for point in self.entity.points:
                 for collidable_point in collidable.points:
                     self.line_collider([self.entity.pos + previos_point,
                                       self.entity.pos + point],
                                      [collidable.pos + collidable_previous_point,
-                                      collidable.pos + collidable_point])
+                                      collidable.pos + collidable_point], collidable)
                     collidable_previous_point = collidable_point
                 previos_point = point
 
@@ -96,7 +98,7 @@ class Detection:
         else:
             return line[0][0] > crosspoint and crosspoint > line[1][0]
 
-    def line_collider(self, first_line, second_line):
+    def line_collider(self, first_line, second_line, checked_object):
         '''
         4 cases for collision:
             1.  If the lines are parallel to each other then return false for no collision.
@@ -108,13 +110,13 @@ class Detection:
         if first_line[1][0] == first_line[0][0] and second_line[1][0] == second_line[0][0]:
             return False
         elif first_line[1][0] == first_line[0][0]:
-            if self.cartesian_equation(first_line, second_line):
+            if self.cartesian_equation(first_line, second_line, checked_object):
                 self.collision_lines.append(second_line)
                 return True
             else:
                 return False 
         elif second_line[1][0] == second_line[0][0]:
-            if self.cartesian_equation(second_line, first_line):
+            if self.cartesian_equation(second_line, first_line, checked_object):
                 self.collision_lines.append(second_line)
                 return True
             else:
@@ -129,11 +131,12 @@ class Detection:
                 crosspoint = (b_second - b_prime)/(a_prime - a_second)
                 if self._line_check(first_line, crosspoint) and self._line_check(second_line, crosspoint):
                     self.collisions.append(Vec2d(crosspoint, a_prime * crosspoint + b_prime))
+                    self.collided_objects.append(checked_object)
                     self.collision_lines.append(second_line)
                     return True
             return False
 
-    def cartesian_equation(self, first_line, second_line):
+    def cartesian_equation(self, first_line, second_line, checked_object):
         '''
         Check the crosspoint for the simple case of a horisontal first collidable line.
         '''
@@ -145,11 +148,13 @@ class Detection:
             if first_line[0][1] < crosspoint and crosspoint < first_line[1][1]:
                 if self._line_check(second_line, first_line[0][0]):
                     self.collisions.append(Vec2d(first_line[0][0], crosspoint))
+                    self.collided_objects.append(checked_object)
                     return True
             return False
         else:
             if first_line[0][1] > crosspoint and crosspoint > first_line[1][1]:
                 if self._line_check(second_line, first_line[0][0]):
                     self.collisions.append(Vec2d(first_line[0][0], crosspoint))
+                    self.collided_objects.append(checked_object)
                     return True
             return False
