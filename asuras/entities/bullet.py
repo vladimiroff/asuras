@@ -48,7 +48,7 @@ class Bullet(sprite.Sprite):
             predicted_collision_result
             self.kill_in_the_next_frame = True
             if bullet_collisions.collided_objects[0].cell.health > 0:
-                if bullet_collisions.collided_objects[0].cell.health > 20: 
-                    bullet_collisions.collided_objects[0].cell.health -= 20
+                if bullet_collisions.collided_objects[0].cell.health > 2: 
+                    bullet_collisions.collided_objects[0].cell.health -= 2
                 else:
                     bullet_collisions.collided_objects[0].cell.health = 0
