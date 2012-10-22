@@ -158,7 +158,9 @@
   </tile>
   <tile id="28">
    <properties>
+    <property name="building" value="wall"/>
     <property name="collidable" value="1"/>
+    <property name="health" value="200"/>
    </properties>
   </tile>
   <tile id="29">
