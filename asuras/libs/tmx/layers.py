@@ -122,6 +122,11 @@ class Layer:
                 cell = self.cells[i, j]
                 if not 'animated' in cell.tile.properties:
                     surfice_number = int((cell.tile.health - cell.health) // (cell.tile.health / len(cell.tile.surfaces) - 1))
+                    #if not cell.tile.building_type == "":
+                        #print(cell.tile.health, " - ", cell.health, " = ", cell.tile.health - cell.health)
+                        #print(cell.tile.health, " / ", len(cell.tile.surfaces) -1)
+                        #print(cell.tile.building_type)                    
+                        #print(surfice_number)
                     surface.blit(cell.tile.surfaces[surfice_number], (cell.px-ox, cell.py-oy))
                 else:
                     cell.tile.animation.draw(surface,(cell.px-ox, cell.py-oy))

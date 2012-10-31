@@ -41,9 +41,9 @@ class Tile:
         self.tile_width = tileset.tile_width
         self.tile_height = tileset.tile_height
         self.properties = {}
-        self.visible_surface = 0
         self.surfaces = [surface]
         self.health = -1
+        self.building_type = ""
 
     @classmethod
     def from_surface(cls, surface):
